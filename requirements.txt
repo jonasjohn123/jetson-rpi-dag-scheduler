@@ -1,12 +1,50 @@
+# Core graph & scheduling
 networkx
-pyyaml
 numpy
+scipy
+
+# Configuration
+pyyaml
+python-dotenv
+
+# Monitoring & profiling
 psutil
+py-cpuinfo
+
+# Data analysis & visualization
 pandas
 matplotlib
-scipy
+
+# Communication
 grpcio
 grpcio-tools
+protobuf
 paho-mqtt
-tqdm
+
+# Remote execution & file transfer
 paramiko
+
+# HTTP/API support
+requests
+
+# Async file operations
+aiofiles
+
+# CLI & logging
+tqdm
+rich
+
+# Network profiling
+iperf3
+
+# Additional
+torch
+tensorflow
+opencv-python
+ray
+dask
+celery
+redis
+kubernetes
+docker
+jupyter
