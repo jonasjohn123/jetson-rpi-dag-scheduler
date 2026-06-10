@@ -19,6 +19,40 @@ from profilers.network_measurement import (
         return messages_pb2.PingResponse(
             worker_id="rpi01"
         )"""
+
+class WorkerService(
+    messages_pb2_grpc.WorkerServiceServicer
+):
+
+    def Ping(
+        self,
+        request,
+        context
+    ):
+
+        return messages_pb2.PingResponse(
+            worker_id="rpi01"
+        )
+
+    def MeasureLink(
+        self,
+        request,
+        context
+    ):
+
+        latency = measure_latency(
+            request.target_ip
+        )
+
+        bandwidth = measure_bandwidth(
+            request.target_ip
+        )
+
+        return messages_pb2.LinkResponse(
+            latency_ms=latency,
+            bandwidth_mbps=bandwidth
+        )
+    
 def MeasureLink(
     self,
     request,
