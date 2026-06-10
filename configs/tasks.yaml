@@ -1,13 +1,13 @@
 tasks:
 
   capture:
-    command: "python -c \"import time; time.sleep(0.01)\""
+    command: "python workloads/synthetic/capture.py"
 
   preprocess:
-    command: "python -c \"sum(i*i for i in range(1000000))\""
+    command: "python workloads/synthetic/preprocess.py"
 
   detect:
-    command: "python -c \"sum(i*i for i in range(5000000))\""
+    command: "python workloads/synthetic/detect.py"
 
   log:
-    command: "python -c \"open('temp.txt','w').write('x')\"\""
+    command: "python workloads/synthetic/log.py"
