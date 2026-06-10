@@ -1,0 +1,4 @@
+tasks:
+  cpu_task: "python -c \"import time; time.sleep(0.01)\""
+  gpu_task: "python -c \"import time; time.sleep(0.005)\""
+  io_task: "python -c \"open('/dev/null','w').close()\""

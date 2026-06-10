@@ -1,0 +1,32 @@
+workers:
+  - id: rpi01
+    host: RPI4
+    ip: 192.168.10.2
+    role: worker
+    arch: aarch64
+    cpu_cores: 4
+    ram_gb: 4
+    gpu: false
+    grpc_port: 50051
+    tags:
+      - rpi4
+      - cpu
+      - camera
+    max_concurrency: 1
+    artifact_root: "/data/dag/artifacts"
+
+  - id: laptop01
+    host: LAPTOP-8FBC7JB1
+    ip: 192.168.10.1
+    role: coordinator_worker
+    arch: x86_64
+    cpu_cores: 12
+    ram_gb: 16
+    gpu: true
+    grpc_port: 50051
+    tags:
+      - laptop
+      - fusion
+      - cpu
+    max_concurrency: 2
+    artifact_root: "/data/dag/artifacts"

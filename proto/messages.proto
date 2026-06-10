@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package scheduler;
+
+
+message PingRequest {}
+
+message PingResponse {
+  string worker_id = 1;
+}
+
+
+message LinkRequest {
+  string target_ip = 1;
+}
+
+
+message LinkResponse {
+  double latency_ms = 1;
+  double bandwidth_mbps = 2;
+}
+
+
+service WorkerService {
+
+  rpc Ping(
+      PingRequest
+  ) returns (
+      PingResponse
+  );
+
+  rpc MeasureLink(
+      LinkRequest
+  ) returns (
+      LinkResponse
+  );
+
+}
