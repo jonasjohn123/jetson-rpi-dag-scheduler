@@ -4,8 +4,13 @@ from concurrent import futures
 import messages_pb2
 import messages_pb2_grpc
 
+from profilers.network_measurement import (
+    measure_latency,
+    measure_bandwidth
+)
 
-class WorkerService(
+
+"""class WorkerService(
     messages_pb2_grpc.WorkerServiceServicer
 ):
 
@@ -13,7 +18,25 @@ class WorkerService(
 
         return messages_pb2.PingResponse(
             worker_id="rpi01"
-        )
+        )"""
+def MeasureLink(
+    self,
+    request,
+    context
+):
+
+    latency = measure_latency(
+        request.target_ip
+    )
+
+    bandwidth = measure_bandwidth(
+        request.target_ip
+    )
+
+    return messages_pb2.LinkResponse(
+        latency_ms=latency,
+        bandwidth_mbps=bandwidth
+    )
 
 
 def serve():
