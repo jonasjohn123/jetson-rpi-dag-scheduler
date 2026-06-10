@@ -6,6 +6,10 @@ from pathlib import Path
 
 import yaml
 
+import grpc
+import messages_pb2
+import messages_pb2_grpc
+
 
 WORKERS_FILE = Path("configs/workers.yaml")
 NETWORK_PROFILE_FILE = Path("configs/network_profiles.yaml")

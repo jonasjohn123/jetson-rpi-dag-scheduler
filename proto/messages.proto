@@ -20,6 +20,16 @@ message LinkResponse {
   double bandwidth_mbps = 2;
 }
 
+message TaskProfileRequest {
+  string command = 1;
+  int32 runs = 2;
+}
+
+message TaskProfileResponse {
+  double mean_ms = 1;
+  double min_ms = 2;
+  double max_ms = 3;
+}
 
 service WorkerService {
 
@@ -33,6 +43,11 @@ service WorkerService {
       LinkRequest
   ) returns (
       LinkResponse
+  );
+  rpc ProfileTask(
+      TaskProfileRequest
+  ) returns (
+      TaskProfileResponse
   );
 
 }

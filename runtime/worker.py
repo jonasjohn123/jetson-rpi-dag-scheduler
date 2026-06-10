@@ -5,6 +5,7 @@ import messages_pb2
 import messages_pb2_grpc
 
 import subprocess
+import time
 
 from profilers.network_measurement import (
     measure_latency,
@@ -103,7 +104,35 @@ def serve():
     server.start()
 
     server.wait_for_termination()
+def ProfileTask(
+    self,
+    request,
+    context
+):
 
+    samples = []
+
+    for _ in range(request.runs):
+
+        start = time.perf_counter()
+
+        subprocess.run(
+            request.command,
+            shell=True,
+            check=True
+        )
+
+        elapsed_ms = (
+            time.perf_counter() - start
+        ) * 1000
+
+        samples.append(elapsed_ms)
+
+    return messages_pb2.TaskProfileResponse(
+        mean_ms=sum(samples) / len(samples),
+        min_ms=min(samples),
+        max_ms=max(samples)
+    )
 
 if __name__ == "__main__":
     serve()

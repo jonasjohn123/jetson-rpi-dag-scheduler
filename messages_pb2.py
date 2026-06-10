@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\tscheduler\"\r\n\x0bPingRequest\"!\n\x0cPingResponse\x12\x11\n\tworker_id\x18\x01 \x01(\t\" \n\x0bLinkRequest\x12\x11\n\ttarget_ip\x18\x01 \x01(\t\":\n\x0cLinkResponse\x12\x12\n\nlatency_ms\x18\x01 \x01(\x01\x12\x16\n\x0e\x62\x61ndwidth_mbps\x18\x02 \x01(\x01\x32\x88\x01\n\rWorkerService\x12\x37\n\x04Ping\x12\x16.scheduler.PingRequest\x1a\x17.scheduler.PingResponse\x12>\n\x0bMeasureLink\x12\x16.scheduler.LinkRequest\x1a\x17.scheduler.LinkResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\tscheduler\"\r\n\x0bPingRequest\"!\n\x0cPingResponse\x12\x11\n\tworker_id\x18\x01 \x01(\t\" \n\x0bLinkRequest\x12\x11\n\ttarget_ip\x18\x01 \x01(\t\":\n\x0cLinkResponse\x12\x12\n\nlatency_ms\x18\x01 \x01(\x01\x12\x16\n\x0e\x62\x61ndwidth_mbps\x18\x02 \x01(\x01\"3\n\x12TaskProfileRequest\x12\x0f\n\x07\x63ommand\x18\x01 \x01(\t\x12\x0c\n\x04runs\x18\x02 \x01(\x05\"F\n\x13TaskProfileResponse\x12\x0f\n\x07mean_ms\x18\x01 \x01(\x01\x12\x0e\n\x06min_ms\x18\x02 \x01(\x01\x12\x0e\n\x06max_ms\x18\x03 \x01(\x01\x32\xd6\x01\n\rWorkerService\x12\x37\n\x04Ping\x12\x16.scheduler.PingRequest\x1a\x17.scheduler.PingResponse\x12>\n\x0bMeasureLink\x12\x16.scheduler.LinkRequest\x1a\x17.scheduler.LinkResponse\x12L\n\x0bProfileTask\x12\x1d.scheduler.TaskProfileRequest\x1a\x1e.scheduler.TaskProfileResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,6 +39,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_LINKREQUEST']._serialized_end=111
   _globals['_LINKRESPONSE']._serialized_start=113
   _globals['_LINKRESPONSE']._serialized_end=171
-  _globals['_WORKERSERVICE']._serialized_start=174
-  _globals['_WORKERSERVICE']._serialized_end=310
+  _globals['_TASKPROFILEREQUEST']._serialized_start=173
+  _globals['_TASKPROFILEREQUEST']._serialized_end=224
+  _globals['_TASKPROFILERESPONSE']._serialized_start=226
+  _globals['_TASKPROFILERESPONSE']._serialized_end=296
+  _globals['_WORKERSERVICE']._serialized_start=299
+  _globals['_WORKERSERVICE']._serialized_end=513
 # @@protoc_insertion_point(module_scope)
