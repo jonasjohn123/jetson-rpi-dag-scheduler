@@ -59,30 +59,30 @@ class WorkerService(
     self,
     request,
     context
-):
+    ):
 
-    samples = []
+        samples = []
 
-    for _ in range(request.runs):
+        for _ in range(request.runs):
 
-        start = time.perf_counter()
+            start = time.perf_counter()
 
-        subprocess.run(
-            request.command,
-            shell=True,
-            check=True
-        )
+            subprocess.run(
+                request.command,
+                shell=True,
+                check=True
+            )
 
-        elapsed_ms = (
-            time.perf_counter() - start
-        ) * 1000
+            elapsed_ms = (
+                time.perf_counter() - start
+            ) * 1000
 
-        samples.append(elapsed_ms)
+            samples.append(elapsed_ms)
 
-    return messages_pb2.TaskProfileResponse(
-        mean_ms=sum(samples) / len(samples),
-        min_ms=min(samples),
-        max_ms=max(samples)
+        return messages_pb2.TaskProfileResponse(
+            mean_ms=sum(samples) / len(samples),
+            min_ms=min(samples),
+            max_ms=max(samples)
     )
     
 def MeasureLink(
