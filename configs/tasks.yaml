@@ -1,7 +1,13 @@
 tasks:
-  cpu_task: 
+
+  capture:
     command: "python -c \"import time; time.sleep(0.01)\""
-  gpu_task: 
-    command: "python -c \"import time; time.sleep(0.005)\""
-  io_task: 
-    command: "python -c \"open('/dev/null','w').close()\""
+
+  preprocess:
+    command: "python -c \"sum(i*i for i in range(1000000))\""
+
+  detect:
+    command: "python -c \"sum(i*i for i in range(5000000))\""
+
+  log:
+    command: "python -c \"open('temp.txt','w').write('x')\"\""
