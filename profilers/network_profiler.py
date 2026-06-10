@@ -136,10 +136,38 @@ def save_profiles(profile_data):
             default_flow_style=False,
             sort_keys=False
         )
+def measure_link(src, dst):
 
+    channel = grpc.insecure_channel(
+        f"{src['ip']}:{src['grpc_port']}"
+    )
 
+    stub = (
+        messages_pb2_grpc.WorkerServiceStub(
+            channel
+        )
+    )
+
+    response = stub.MeasureLink(
+        messages_pb2.LinkRequest(
+            target_ip=dst["ip"]
+        )
+    )
+
+    return {
+        "latency_ms": round(
+            response.latency_ms,
+            2
+        ),
+        "bandwidth_mbps": round(
+            response.bandwidth_mbps,
+            2
+        )
+    }
+
+"""
 def profile_network():
-    """
+    ""
     Build communication matrix.
 
     Assumptions:
@@ -149,7 +177,7 @@ def profile_network():
 
     Returns:
         dict
-    """
+    ""
 
     workers = load_workers()
 
@@ -201,7 +229,39 @@ def profile_network():
     save_profiles(profile_data)
 
     return profile_data
+"""
 
+def profile_network():
+
+    workers = load_workers()
+
+    profile_data = {
+        "links": {}
+    }
+
+    for src in workers:
+
+        src_id = src["id"]
+
+        profile_data["links"][src_id] = {}
+
+        for dst in workers:
+
+            dst_id = dst["id"]
+
+            if src_id == dst_id:
+                continue
+
+            profile_data["links"][src_id][dst_id] = (
+                measure_link(
+                    src,
+                    dst
+                )
+            )
+
+    save_profiles(profile_data)
+
+    return profile_data
 
 if __name__ == "__main__":
     profile_network()
