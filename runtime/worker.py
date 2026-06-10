@@ -4,6 +4,8 @@ from concurrent import futures
 import messages_pb2
 import messages_pb2_grpc
 
+import subprocess
+
 from profilers.network_measurement import (
     measure_latency,
     measure_bandwidth
@@ -72,6 +74,14 @@ def MeasureLink(
         bandwidth_mbps=bandwidth
     )
 
+subprocess.Popen(
+    [
+        "iperf3",
+        "-s"
+    ],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL
+)
 
 def serve():
 
