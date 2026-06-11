@@ -107,12 +107,12 @@ class WorkerService(
                 )
             )
 
-        except Exception as e:
+        except subprocess.CalledProcessError as e:
 
             return (
                 messages_pb2.ExecuteTaskResponse(
                     success=False,
-                    output=str(e)
+                    output=e.stderr
                 )
             )
     
