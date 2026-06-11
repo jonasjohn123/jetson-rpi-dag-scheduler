@@ -1,3 +1,10 @@
-with open("temp_log.txt", "w") as f:
-    for i in range(10000):
-        f.write(f"{i}\n")
+# cpu_test.py
+
+total = 0
+
+for i in range(
+    50_000_000
+):
+    total += i
+
+print(total)
