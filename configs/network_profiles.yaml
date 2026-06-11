@@ -1,9 +1,9 @@
 links:
   rpi01:
     laptop01:
-      latency_ms: 0.79
-      bandwidth_mbps: 940.24
+      latency_ms: 0.78
+      bandwidth_mbps: 939.52
   laptop01:
     rpi01:
       latency_ms: 0.0
-      bandwidth_mbps: 949.01
+      bandwidth_mbps: 949.05

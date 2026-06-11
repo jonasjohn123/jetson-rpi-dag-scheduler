@@ -1,13 +1,56 @@
 tasks:
 
   capture:
-    command: "python workloads/synthetic/capture.py"
+    command: "python workloads/vision/capture.py"
+    preferred: camera
+
+    inputs: []
+
+    outputs:
+      - frame.jpg
+
+    artifact_sizes_mb:
+      frame.jpg: 5
 
   preprocess:
-    command: "python workloads/synthetic/preprocess.py"
+    command: "python workloads/vision/preprocess.py"
+    preferred: cpu
+
+    inputs:
+      - frame.jpg
+
+    outputs:
+      - tensor.npy
+      - metadata.json
+
+    artifact_sizes_mb:
+      tensor.npy: 20
+      metadata.json: 0.1
 
   detect:
-    command: "python workloads/synthetic/detect.py"
+    command: "python workloads/vision/detect.py"
+    preferred: gpu
+
+    inputs:
+      - tensor.npy
+      - metadata.json
+
+    outputs:
+      - boxes.json
+      - confidence.json
+
+    artifact_sizes_mb:
+      boxes.json: 1
+      confidence.json: 0.05
 
   log:
-    command: "python workloads/synthetic/log.py"
+    command: "python workloads/vision/log.py"
+    preferred: cpu
+
+    inputs:
+      - boxes.json
+      - confidence.json
+
+    outputs: []
+
+    artifact_sizes_mb: {}

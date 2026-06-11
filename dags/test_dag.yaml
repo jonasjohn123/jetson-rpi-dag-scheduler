@@ -1,0 +1,18 @@
+nodes:
+
+  n0:
+    task_type: capture
+
+  n1:
+    task_type: preprocess
+
+  n2:
+    task_type: detect
+
+  n3:
+    task_type: log
+
+edges:
+  - [n0, n1]
+  - [n1, n2]
+  - [n2, n3]

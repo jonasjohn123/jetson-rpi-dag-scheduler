@@ -49,6 +49,11 @@ class WorkerServiceStub:
                 request_serializer=messages__pb2.TaskProfileRequest.SerializeToString,
                 response_deserializer=messages__pb2.TaskProfileResponse.FromString,
                 _registered_method=True)
+        self.ExecuteTask = channel.unary_unary(
+                '/scheduler.WorkerService/ExecuteTask',
+                request_serializer=messages__pb2.ExecuteTaskRequest.SerializeToString,
+                response_deserializer=messages__pb2.ExecuteTaskResponse.FromString,
+                _registered_method=True)
 
 
 class WorkerServiceServicer:
@@ -72,6 +77,12 @@ class WorkerServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ExecuteTask(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -89,6 +100,11 @@ def add_WorkerServiceServicer_to_server(servicer, server):
                     servicer.ProfileTask,
                     request_deserializer=messages__pb2.TaskProfileRequest.FromString,
                     response_serializer=messages__pb2.TaskProfileResponse.SerializeToString,
+            ),
+            'ExecuteTask': grpc.unary_unary_rpc_method_handler(
+                    servicer.ExecuteTask,
+                    request_deserializer=messages__pb2.ExecuteTaskRequest.FromString,
+                    response_serializer=messages__pb2.ExecuteTaskResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -172,6 +188,33 @@ class WorkerService:
             '/scheduler.WorkerService/ProfileTask',
             messages__pb2.TaskProfileRequest.SerializeToString,
             messages__pb2.TaskProfileResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ExecuteTask(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/ExecuteTask',
+            messages__pb2.ExecuteTaskRequest.SerializeToString,
+            messages__pb2.ExecuteTaskResponse.FromString,
             options,
             channel_credentials,
             insecure,

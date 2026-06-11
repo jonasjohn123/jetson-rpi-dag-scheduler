@@ -14,11 +14,11 @@ message LinkRequest {
   string target_ip = 1;
 }
 
-
 message LinkResponse {
   double latency_ms = 1;
   double bandwidth_mbps = 2;
 }
+
 
 message TaskProfileRequest {
   string command = 1;
@@ -30,6 +30,17 @@ message TaskProfileResponse {
   double min_ms = 2;
   double max_ms = 3;
 }
+
+
+message ExecuteTaskRequest {
+  string command = 1;
+}
+
+message ExecuteTaskResponse {
+  bool success = 1;
+  string output = 2;
+}
+
 
 service WorkerService {
 
@@ -44,10 +55,16 @@ service WorkerService {
   ) returns (
       LinkResponse
   );
+
   rpc ProfileTask(
       TaskProfileRequest
   ) returns (
       TaskProfileResponse
   );
 
+  rpc ExecuteTask(
+      ExecuteTaskRequest
+  ) returns (
+      ExecuteTaskResponse
+  );
 }
