@@ -84,6 +84,37 @@ class WorkerService(
             min_ms=min(samples),
             max_ms=max(samples)
     )
+
+    def ExecuteTask(
+    self,
+    request,
+    context
+    ):
+        try:
+
+            result = subprocess.run(
+                request.command,
+                shell=True,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+
+            return (
+                messages_pb2.ExecuteTaskResponse(
+                    success=True,
+                    output=result.stdout
+                )
+            )
+
+        except Exception as e:
+
+            return (
+                messages_pb2.ExecuteTaskResponse(
+                    success=False,
+                    output=str(e)
+                )
+            )
     
 def MeasureLink(
     self,
