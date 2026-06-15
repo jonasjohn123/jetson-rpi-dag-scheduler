@@ -38,7 +38,7 @@ rich
 iperf3
 
 # Additional
-torch
+#torch
 tensorflow
 opencv-python
 ray
