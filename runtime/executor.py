@@ -1,12 +1,16 @@
+import time
 import json
 import grpc
 import yaml
-import networkx as nx
 
 import messages_pb2
 import messages_pb2_grpc
 
 from scheduler.dag_loader import load_dag
+
+from runtime.queue_builder import (
+    build_worker_queues
+)
 
 
 def load_mapping():
@@ -54,10 +58,12 @@ def build_worker_lookup():
     return lookup
 
 
-def execute_remote(
+def upload_schedule(
     worker_ip,
-    command
+    workflow_id,
+    tasks
 ):
+
     channel = grpc.insecure_channel(
         f"{worker_ip}:50051"
     )
@@ -69,20 +75,57 @@ def execute_remote(
         )
     )
 
-    response = (
-        stub.ExecuteTask(
-
-            messages_pb2
-            .ExecuteTaskRequest(
-                command=command
-            )
+    schedule = (
+        messages_pb2.WorkerSchedule(
+            workflow_id=workflow_id,
+            tasks=tasks
         )
     )
 
-    return response
+    return (
+        stub.UploadSchedule(
+            schedule
+        )
+    )
+
+
+def start_workflow(
+    worker_ip,
+    workflow_id,
+    start_timestamp_ms
+):
+
+    channel = grpc.insecure_channel(
+        f"{worker_ip}:50051"
+    )
+
+    stub = (
+        messages_pb2_grpc
+        .WorkerServiceStub(
+            channel
+        )
+    )
+
+    request = (
+        messages_pb2.StartWorkflowRequest(
+            workflow_id=workflow_id,
+            start_timestamp_ms=
+            start_timestamp_ms
+        )
+    )
+
+    return (
+        stub.StartWorkflow(
+            request
+        )
+    )
 
 
 def main():
+
+    workflow_id = (
+        "workflow_001"
+    )
 
     mapping = (
         load_mapping()
@@ -96,53 +139,51 @@ def main():
         load_tasks()
     )["tasks"]
 
+    workers = (
+        load_workers()
+    )
+
     worker_lookup = (
         build_worker_lookup()
     )
 
-    execution_order = list(
-
-        nx.topological_sort(
-            graph
+    queues = (
+        build_worker_queues(
+            workflow_id,
+            graph,
+            mapping,
+            tasks,
+            workers
         )
     )
+
+    for worker_id, queue in queues.items():
+
+        print()
+        print(
+            f"=== {worker_id} ==="
+        )
+
+        for task in queue:
+
+            print(
+                task.task_id
+            )
+
+            print(
+                task.command
+            )
+
+            print()
 
     print()
-
     print(
-        "Execution Order:"
+        "Uploading schedules..."
     )
 
-    print(
-        execution_order
-    )
-
-    print()
-
-    for node in execution_order:
-
-        schedule_info = (
-            mapping[
-                "schedule"
-            ][node]
-        )
-
-        worker_id = (
-            schedule_info[
-                "worker"
-            ]
-        )
-
-        task_type = (
-            graph.nodes[node]
-            ["task_type"]
-        )
-
-        command = (
-            tasks[
-                task_type
-            ]["command"]
-        )
+    for worker_id, queue in (
+        queues.items()
+    ):
 
         worker_ip = (
             worker_lookup[
@@ -150,53 +191,48 @@ def main():
             ]["ip"]
         )
 
-        print(
-            f"Executing {node}"
-        )
-
-        print(
-            f"Task Type: {task_type}"
-        )
-
-        print(
-            f"Worker: {worker_id}"
-        )
-
         response = (
-            execute_remote(
+            upload_schedule(
                 worker_ip,
-                command
+                workflow_id,
+                queue
             )
         )
 
-        if response.success:
+        print(
+            worker_id,
+            response.message
+        )
 
-            print(
-                "SUCCESS"
-            )
+    print()
 
-            if response.output:
-
-                print(
-                    response.output
-                )
-
-        else:
-
-            print(
-                "FAILED"
-            )
-
-            print(
-                response.output
-            )
-
-            return
-
-        print()
+    start_timestamp_ms = int(
+        (
+            time.time() + 10
+        ) * 1000
+    )
 
     print(
-        "Workflow Complete"
+        "Workflow start:",
+        start_timestamp_ms
+    )
+
+    for worker in (
+        workers["workers"]
+    ):
+
+        start_workflow(
+
+            worker["ip"],
+
+            workflow_id,
+
+            start_timestamp_ms
+        )
+
+    print()
+    print(
+        "Workflow launched"
     )
 
 

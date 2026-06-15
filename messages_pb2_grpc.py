@@ -54,6 +54,21 @@ class WorkerServiceStub:
                 request_serializer=messages__pb2.ExecuteTaskRequest.SerializeToString,
                 response_deserializer=messages__pb2.ExecuteTaskResponse.FromString,
                 _registered_method=True)
+        self.UploadSchedule = channel.unary_unary(
+                '/scheduler.WorkerService/UploadSchedule',
+                request_serializer=messages__pb2.WorkerSchedule.SerializeToString,
+                response_deserializer=messages__pb2.UploadScheduleResponse.FromString,
+                _registered_method=True)
+        self.StartWorkflow = channel.unary_unary(
+                '/scheduler.WorkerService/StartWorkflow',
+                request_serializer=messages__pb2.StartWorkflowRequest.SerializeToString,
+                response_deserializer=messages__pb2.StartWorkflowResponse.FromString,
+                _registered_method=True)
+        self.TransferArtifact = channel.stream_unary(
+                '/scheduler.WorkerService/TransferArtifact',
+                request_serializer=messages__pb2.ArtifactChunk.SerializeToString,
+                response_deserializer=messages__pb2.ArtifactTransferResponse.FromString,
+                _registered_method=True)
 
 
 class WorkerServiceServicer:
@@ -83,6 +98,24 @@ class WorkerServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UploadSchedule(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StartWorkflow(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def TransferArtifact(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -105,6 +138,21 @@ def add_WorkerServiceServicer_to_server(servicer, server):
                     servicer.ExecuteTask,
                     request_deserializer=messages__pb2.ExecuteTaskRequest.FromString,
                     response_serializer=messages__pb2.ExecuteTaskResponse.SerializeToString,
+            ),
+            'UploadSchedule': grpc.unary_unary_rpc_method_handler(
+                    servicer.UploadSchedule,
+                    request_deserializer=messages__pb2.WorkerSchedule.FromString,
+                    response_serializer=messages__pb2.UploadScheduleResponse.SerializeToString,
+            ),
+            'StartWorkflow': grpc.unary_unary_rpc_method_handler(
+                    servicer.StartWorkflow,
+                    request_deserializer=messages__pb2.StartWorkflowRequest.FromString,
+                    response_serializer=messages__pb2.StartWorkflowResponse.SerializeToString,
+            ),
+            'TransferArtifact': grpc.stream_unary_rpc_method_handler(
+                    servicer.TransferArtifact,
+                    request_deserializer=messages__pb2.ArtifactChunk.FromString,
+                    response_serializer=messages__pb2.ArtifactTransferResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -215,6 +263,87 @@ class WorkerService:
             '/scheduler.WorkerService/ExecuteTask',
             messages__pb2.ExecuteTaskRequest.SerializeToString,
             messages__pb2.ExecuteTaskResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UploadSchedule(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/UploadSchedule',
+            messages__pb2.WorkerSchedule.SerializeToString,
+            messages__pb2.UploadScheduleResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StartWorkflow(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/StartWorkflow',
+            messages__pb2.StartWorkflowRequest.SerializeToString,
+            messages__pb2.StartWorkflowResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def TransferArtifact(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/scheduler.WorkerService/TransferArtifact',
+            messages__pb2.ArtifactChunk.SerializeToString,
+            messages__pb2.ArtifactTransferResponse.FromString,
             options,
             channel_credentials,
             insecure,

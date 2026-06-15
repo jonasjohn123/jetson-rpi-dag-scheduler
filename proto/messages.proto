@@ -32,12 +32,107 @@ message TaskProfileResponse {
 }
 
 
+/* ---------- Artifact Transfer ---------- */
+
+message ArtifactChunk {
+
+  string workflow_id = 1;
+
+  string producer_task_id = 2;
+
+  string artifact_name = 3;
+
+  bytes data = 4;
+}
+
+message ArtifactTransferResponse {
+
+  bool success = 1;
+
+  string message = 2;
+}
+
+
+/* ---------- Worker Queue ---------- */
+
+message ArtifactInput {
+
+  string producer_task_id = 1;
+
+  string artifact_name = 2;
+}
+
+message ArtifactDestination {
+
+  string worker_id = 1;
+
+  string worker_ip = 2;
+
+  string artifact_name = 3;
+}
+
+message WorkerTask {
+
+  string task_id = 1;
+
+  string task_type = 2;
+
+  string command = 3;
+
+  double start_ms = 4;
+
+  double finish_ms = 5;
+
+  repeated ArtifactInput inputs = 6;
+
+  repeated string outputs = 7;
+
+  repeated ArtifactDestination destinations = 8;
+}
+
+message WorkerSchedule {
+
+  string workflow_id = 1;
+
+  repeated WorkerTask tasks = 2;
+}
+
+message UploadScheduleResponse {
+
+  bool success = 1;
+
+  string message = 2;
+}
+
+
+/* ---------- Workflow Control ---------- */
+
+message StartWorkflowRequest {
+
+  string workflow_id = 1;
+
+  int64 start_timestamp_ms = 2;
+}
+
+message StartWorkflowResponse {
+
+  bool success = 1;
+
+  string message = 2;
+}
+
+
+/* ---------- Legacy Immediate Execution ---------- */
+
 message ExecuteTaskRequest {
+
   string command = 1;
 }
 
 message ExecuteTaskResponse {
+
   bool success = 1;
+
   string output = 2;
 }
 
@@ -66,5 +161,23 @@ service WorkerService {
       ExecuteTaskRequest
   ) returns (
       ExecuteTaskResponse
+  );
+
+  rpc UploadSchedule(
+      WorkerSchedule
+  ) returns (
+      UploadScheduleResponse
+  );
+
+  rpc StartWorkflow(
+      StartWorkflowRequest
+  ) returns (
+      StartWorkflowResponse
+  );
+
+  rpc TransferArtifact(
+      stream ArtifactChunk
+  ) returns (
+      ArtifactTransferResponse
   );
 }
