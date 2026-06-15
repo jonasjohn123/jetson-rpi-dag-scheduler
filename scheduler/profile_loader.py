@@ -58,7 +58,7 @@ def load_profiles():
             exec_cost[
                 task_type
             ][worker_id] = profile[
-                "mean_ms"
+                "max_ms"
             ]
 
     comm_cost = {}
