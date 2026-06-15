@@ -6,28 +6,18 @@ import subprocess
 
 def measure_latency(ip, runs=10):
     """
-    Measure worst-case network latency.
-
-    Method:
-        - Execute ping multiple times.
-        - Each ping sends 5 packets.
-        - Extract RTT of every packet.
-        - Return the largest RTT observed across all packets
-          from all runs.
-
-    Args:
-        ip (str): Destination IP address.
-        runs (int): Number of ping executions.
+    Measure worst-case latency.
 
     Returns:
-        float: Worst RTT in milliseconds.
+        Maximum RTT observed across all ping packets
+        from all runs.
     """
 
     count_flag = "-n" if platform.system() == "Windows" else "-c"
 
     worst_rtt = 0.0
 
-    for _ in range(runs):
+    for run in range(runs):
 
         result = subprocess.check_output(
             ["ping", count_flag, "5", ip],
@@ -66,40 +56,67 @@ def measure_latency(ip, runs=10):
 
 def measure_bandwidth(ip, runs=10):
     """
-    Measure worst-case network bandwidth.
-
-    Method:
-        - Execute iperf3 multiple times.
-        - Each iperf3 run reports average throughput.
-        - Return the minimum throughput observed.
-
-    Args:
-        ip (str): Destination IP address.
-        runs (int): Number of iperf3 executions.
+    Measure worst-case bandwidth.
 
     Returns:
-        float: Worst bandwidth in Mbps.
+        Minimum average throughput observed
+        across all iperf3 runs.
     """
 
     worst_bandwidth = float("inf")
 
-    for _ in range(runs):
+    for run in range(runs):
 
-        result = subprocess.check_output(
-            [
-                "iperf3",
-                "-c",
-                ip,
-                "-J"
-            ],
-            universal_newlines=True
+        # TEMP DEBUG
+        print(
+            "[PROFILE] Starting bandwidth run {} to {}".format(
+                run + 1,
+                ip
+            )
         )
+
+        try:
+
+            result = subprocess.check_output(
+                [
+                    "iperf3",
+                    "-c",
+                    ip,
+                    "-J"
+                ],
+                universal_newlines=True,
+                stderr=subprocess.STDOUT
+            )
+
+        except subprocess.CalledProcessError as e:
+
+            # TEMP DEBUG
+            print(
+                "[PROFILE] FAILED bandwidth run {} to {}".format(
+                    run + 1,
+                    ip
+                )
+            )
+
+            print(e.output)
+
+            raise
 
         data = json.loads(result)
 
         bandwidth = (
-            data["end"]["sum_received"]["bits_per_second"]
+            data["end"]["sum_received"]
+            ["bits_per_second"]
             / 1_000_000
+        )
+
+        # TEMP DEBUG
+        print(
+            "[PROFILE] Finished bandwidth run {} to {} : {:.2f} Mbps".format(
+                run + 1,
+                ip,
+                bandwidth
+            )
         )
 
         worst_bandwidth = min(

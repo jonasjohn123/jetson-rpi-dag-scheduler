@@ -148,7 +148,7 @@ def serve():
 
     server = grpc.server(
         futures.ThreadPoolExecutor(
-            max_workers=10
+            max_workers=1
         )
     )
 
