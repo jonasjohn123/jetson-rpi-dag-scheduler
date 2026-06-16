@@ -1,4 +1,4 @@
-from pathlib import PathPosixPath
+from pathlib import PurePosixPath
 
 
 def artifact_path(
@@ -9,7 +9,7 @@ def artifact_path(
 
     return str(
 
-        PathPosixPath(
+        PurePosixPath(
             "artifacts",
             workflow_id,
             producer_task_id,
