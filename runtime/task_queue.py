@@ -10,6 +10,10 @@ from runtime.artifact_transfer import (
     send_artifact
 )
 
+from runtime.execution_logger import (
+    log_execution
+)
+
 
 class TaskQueue:
 
@@ -151,6 +155,31 @@ class TaskQueue:
 
             actual_finish = int(
                 time.time() * 1000
+            )
+
+            log_execution(
+
+                {
+                    "workflow_id":
+                        self.workflow_id,
+
+                    "task_id":
+                        task.task_id,
+
+                    "scheduled_start":
+                        scheduled_start,
+
+                    "scheduled_finish":
+                        scheduled_finish,
+
+                    "actual_finish":
+                        actual_finish,
+
+                    "delta_ms":
+                        actual_finish
+                        -
+                        scheduled_finish
+                }
             )
             print(
                 "[TIMING]",
