@@ -32,18 +32,18 @@ workers:
     max_concurrency: 2
     artifact_root: "/data/dag/artifacts"
 
-  # - id: jetson01
-  #   host: jetson
-  #   ip: 192.168.10.3
-  #   role: worker
-  #   arch: aarch64
-  #   cpu_cores: 4
-  #   ram_gb: 4
-  #   gpu: true
-  #   grpc_port: 50051
-  #   tags:
-  #     - jetson
-  #     - gpu
-  #     - camera
-  #   max_concurrency: 1
-  #   artifact_root: "/data/dag/artifacts"
+  - id: jetson01
+    host: jetson
+    ip: 192.168.10.3
+    role: worker
+    arch: aarch64
+    cpu_cores: 4
+    ram_gb: 4
+    gpu: true
+    grpc_port: 50051
+    tags:
+      - jetson
+      - gpu
+      - camera
+    max_concurrency: 1
+    artifact_root: "/data/dag/artifacts"

@@ -1,37 +1,37 @@
 task_types:
   capture:
     rpi01:
-      mean_ms: 57.07
-      min_ms: 47.14
-      max_ms: 90.0
+      mean_ms: 2127.57
+      min_ms: 2110.3
+      max_ms: 2151.2
     laptop01:
-      mean_ms: 65.32
-      min_ms: 63.52
-      max_ms: 68.06
+      mean_ms: 2094.46
+      min_ms: 2088.39
+      max_ms: 2104.52
   preprocess:
     rpi01:
-      mean_ms: 49.12
-      min_ms: 47.63
-      max_ms: 54.41
+      mean_ms: 3131.74
+      min_ms: 3122.0
+      max_ms: 3143.28
     laptop01:
-      mean_ms: 68.53
-      min_ms: 67.53
-      max_ms: 69.72
+      mean_ms: 3094.38
+      min_ms: 3090.19
+      max_ms: 3115.3
   detect:
     rpi01:
-      mean_ms: 47.98
-      min_ms: 47.13
-      max_ms: 49.32
+      mean_ms: 4130.88
+      min_ms: 4116.48
+      max_ms: 4155.84
     laptop01:
-      mean_ms: 67.22
-      min_ms: 66.41
-      max_ms: 69.15
+      mean_ms: 4093.58
+      min_ms: 4089.14
+      max_ms: 4111.97
   log:
     rpi01:
-      mean_ms: 17729.14
-      min_ms: 16609.22
-      max_ms: 18929.36
+      mean_ms: 1118.23
+      min_ms: 1108.1
+      max_ms: 1138.57
     laptop01:
-      mean_ms: 3049.08
-      min_ms: 2937.08
-      max_ms: 3307.04
+      mean_ms: 1093.91
+      min_ms: 1087.7
+      max_ms: 1105.23

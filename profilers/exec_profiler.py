@@ -23,7 +23,7 @@ def load_tasks():
         return yaml.safe_load(f)["tasks"]
 
 
-def profile_task(worker, command, runs=50):
+def profile_task(worker, command, runs=10):
 
     channel = grpc.insecure_channel(
         f"{worker['ip']}:{worker['grpc_port']}"
