@@ -36,12 +36,15 @@ time.sleep(4)
 
 for output_file in args.output:
 
-    os.makedirs(
-        os.path.dirname(
-            output_file
-        ),
-        exist_ok=True
+    directory = os.path.dirname(
+        output_file
     )
+
+    if directory:
+        os.makedirs(
+            directory,
+            exist_ok=True
+        )
 
     with open(
         output_file,
