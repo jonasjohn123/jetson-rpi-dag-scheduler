@@ -113,7 +113,8 @@ class TaskQueue:
 
     def run_task(
         self,
-        task
+        task,
+        scheduled_start
     ):
 
         allocated_seconds = (
@@ -333,7 +334,8 @@ class TaskQueue:
                 return
 
             success = self.run_task(
-                task
+                task,
+                scheduled_start
             )
 
             if not success:
