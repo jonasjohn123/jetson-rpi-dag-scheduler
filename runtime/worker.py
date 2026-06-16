@@ -253,5 +253,9 @@ def serve():
 
 
 if __name__ == "__main__":
+    print(
+        "[CLOCK]",
+        int(time.time() * 1000)
+    )
 
     serve()

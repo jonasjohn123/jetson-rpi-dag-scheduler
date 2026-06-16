@@ -24,8 +24,8 @@ tasks:
       - metadata.json
 
     artifact_sizes_mb:
-      tensor.npy: 20
-      metadata.json: 0.1
+      tensor.npy: 10
+      metadata.json: 10
 
   detect:
     command: "python workloads/vision/detect.py"
@@ -41,7 +41,7 @@ tasks:
 
     artifact_sizes_mb:
       boxes.json: 1
-      confidence.json: 0.05
+      confidence.json: 1
 
   log:
     command: "python workloads/vision/log.py"
