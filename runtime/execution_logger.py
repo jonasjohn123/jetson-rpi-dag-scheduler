@@ -11,6 +11,11 @@ def log_execution(entry):
 
     logs = []
 
+    LOG_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
     if LOG_FILE.exists():
 
         with open(
