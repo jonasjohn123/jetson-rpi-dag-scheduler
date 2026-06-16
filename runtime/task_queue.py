@@ -130,6 +130,13 @@ class TaskQueue:
 
         try:
 
+            print(
+                "[ALLOCATED]",
+                task.task_id,
+                allocated_seconds * 1000,
+                "ms"
+            )
+
             subprocess.run(
 
                 task.command,
