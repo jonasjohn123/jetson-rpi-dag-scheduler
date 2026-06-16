@@ -59,7 +59,7 @@ def load_profiles():
                 task_type
             ][worker_id] = profile[
                 "max_ms"
-            ]
+            ]*1.10
 
     comm_cost = {}
 

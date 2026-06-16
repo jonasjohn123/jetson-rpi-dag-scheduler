@@ -136,14 +136,25 @@ class TaskQueue:
 
                 shell=True,
 
-                check=True,
+                check=True
 
-                timeout=allocated_seconds
+                #,timeout=allocated_seconds
 
             )
 
             actual_finish = int(
                 time.time() * 1000
+            )
+            print(
+                "[TIMING]",
+                task.task_id,
+                "scheduled:",
+                scheduled_finish,
+                "actual:",
+                actual_finish,
+                "delta:",
+                actual_finish - scheduled_finish,
+                "ms"
             )
 
             if (

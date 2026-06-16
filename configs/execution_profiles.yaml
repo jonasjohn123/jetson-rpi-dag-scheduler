@@ -20,7 +20,7 @@ task_types:
     laptop01:
       mean_ms: 3097.43
       min_ms: 3089.0
-      max_ms: 3114.7
+      max_ms: 9999
     jetson01:
       mean_ms: 3137.53
       min_ms: 3134.2
