@@ -164,10 +164,12 @@ class TaskQueue:
                 "ms"
             )
 
+            RUNTIME_SLACK_MS = 100
+
             if (
                 actual_finish
                 >
-                scheduled_finish
+                scheduled_finish + RUNTIME_SLACK_MS
             ):
 
                 print(
