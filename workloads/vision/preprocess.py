@@ -21,19 +21,25 @@ args = parser.parse_args()
 
 for input_file in args.input:
 
-    with open(
-        input_file,
-        "rb"
-    ) as f:
+    if os.path.exists(
+        input_file
+    ):
 
-        f.read()
+        with open(
+            input_file,
+            "rb"
+        ) as f:
+
+            f.read()
 
 time.sleep(3)
 
 for output_file in args.output:
 
     os.makedirs(
-        os.path.dirname(output_file),
+        os.path.dirname(
+            output_file
+        ),
         exist_ok=True
     )
 

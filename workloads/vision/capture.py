@@ -1,35 +1,46 @@
 import argparse
 import os
+import time
 
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
+    "--input",
+    action="append",
+    default=[]
+)
+
+parser.add_argument(
     "--output",
-    required=True
+    action="append",
+    default=[]
 )
 
 args = parser.parse_args()
 
-os.makedirs(
-    os.path.dirname(
-        args.output
-    ),
-    exist_ok=True
-)
+time.sleep(2)
 
-with open(
-    args.output,
-    "wb"
-) as f:
+for output_file in args.output:
 
-    f.write(
-        os.urandom(
-            5 * 1024 * 1024
-        )
+    os.makedirs(
+        os.path.dirname(
+            output_file
+        ),
+        exist_ok=True
     )
 
+    with open(
+        output_file,
+        "wb"
+    ) as f:
+
+        f.write(
+            os.urandom(
+                5 * 1024 * 1024
+            )
+        )
+
 print(
-    "Created:",
-    args.output
+    "Capture complete"
 )

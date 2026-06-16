@@ -1,4 +1,5 @@
 import argparse
+import os
 import time
 
 
@@ -20,12 +21,16 @@ args = parser.parse_args()
 
 for input_file in args.input:
 
-    with open(
-        input_file,
-        "rb"
-    ) as f:
+    if os.path.exists(
+        input_file
+    ):
 
-        f.read()
+        with open(
+            input_file,
+            "rb"
+        ) as f:
+
+            f.read()
 
 time.sleep(1)
 
