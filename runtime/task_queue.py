@@ -311,8 +311,30 @@ class TaskQueue:
 
             )
 
+            print(
+                "[WAIT]",
+                task.task_id,
+                "now=",
+                int(time.time() * 1000),
+                "target=",
+                scheduled_start
+            )
+
             self.wait_until(
                 scheduled_start
+            )
+
+            actual_start = int(
+                time.time() * 1000
+            )
+
+            print(
+                "[START]",
+                task.task_id,
+                actual_start,
+                "delta=",
+                actual_start - scheduled_start,
+                "ms"
             )
 
             print(

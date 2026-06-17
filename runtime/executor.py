@@ -122,6 +122,58 @@ def start_workflow(
     )
 
 
+def measure_offset(
+    worker_ip,
+    samples=20
+):
+
+    channel = grpc.insecure_channel(
+        f"{worker_ip}:50051"
+    )
+
+    stub = (
+        messages_pb2_grpc
+        .WorkerServiceStub(
+            channel
+        )
+    )
+
+    offsets = []
+
+    for _ in range(samples):
+
+        t1 = int(
+            time.time() * 1000
+        )
+
+        response = stub.GetTime(
+            messages_pb2.TimeRequest()
+        )
+
+        t3 = int(
+            time.time() * 1000
+        )
+
+        t2 = response.timestamp_ms
+
+        rtt = t3 - t1
+
+        offset = (
+            t2
+            -
+            (
+                t1
+                + rtt / 2
+            )
+        )
+
+        offsets.append(offset)
+
+    return int(
+        median(offsets)
+    )
+
+
 def main():
 
     workflow_id = (
@@ -178,6 +230,22 @@ def main():
             print()
 
     print()
+    print("Clock offsets")
+
+    for worker in workers["workers"]:
+
+        offset = measure_offset(
+            worker["ip"]
+        )
+
+        print(
+            worker["id"],
+            ":",
+            offset,
+            "ms"
+        )
+
+    print()
     print(
         "Uploading schedules..."
     )
@@ -218,9 +286,43 @@ def main():
         start_timestamp_ms
     )
 
-    for worker in (
-        workers["workers"]
-    ):
+    worker_offsets = {}
+
+    for worker in workers["workers"]:
+
+        offset = measure_offset(
+            worker["ip"]
+        )
+
+        worker_offsets[
+            worker["id"]
+        ] = offset
+
+        print(
+            "[OFFSET]",
+            worker["id"],
+            offset,
+            "ms"
+        )
+
+    for worker in workers["workers"]:
+
+        adjusted_start = (
+
+            start_timestamp_ms
+
+            +
+
+            worker_offsets[
+                worker["id"]
+            ]
+        )
+
+        print(
+            "[START]",
+            worker["id"],
+            adjusted_start
+        )
 
         start_workflow(
 
@@ -228,7 +330,7 @@ def main():
 
             workflow_id,
 
-            start_timestamp_ms
+            adjusted_start
         )
 
     print()
@@ -237,74 +339,9 @@ def main():
     )
 
 
-def measure_offset(
-    worker_ip,
-    samples=20
-):
 
-    channel = grpc.insecure_channel(
-        f"{worker_ip}:50051"
-    )
-
-    stub = (
-        messages_pb2_grpc
-        .WorkerServiceStub(
-            channel
-        )
-    )
-
-    offsets = []
-
-    for _ in range(samples):
-
-        t1 = int(
-            time.time() * 1000
-        )
-
-        response = stub.GetTime(
-            messages_pb2.TimeRequest()
-        )
-
-        t3 = int(
-            time.time() * 1000
-        )
-
-        t2 = response.timestamp_ms
-
-        rtt = t3 - t1
-
-        offset = (
-            t2
-            -
-            (
-                t1
-                + rtt / 2
-            )
-        )
-
-        offsets.append(offset)
-
-    return int(
-        median(offsets)
-    )
 
 
 if __name__ == "__main__":
-
-    print()
-    print("Clock offsets")
-
-    for worker in workers["workers"]:
-
-        offset = measure_offset(
-            worker["ip"]
-        )
-
-        print(
-            worker["id"],
-            ":",
-            offset,
-            "ms"
-        )
 
     main()

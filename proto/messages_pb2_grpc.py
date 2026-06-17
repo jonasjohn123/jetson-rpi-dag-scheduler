@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import messages_pb2 as messages__pb2
+from proto import messages_pb2 as proto_dot_messages__pb2
 
 GRPC_GENERATED_VERSION = '1.81.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + ' but the generated code in messages_pb2_grpc.py depends on'
+        + ' but the generated code in proto/messages_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,43 +36,43 @@ class WorkerServiceStub:
         """
         self.Ping = channel.unary_unary(
                 '/scheduler.WorkerService/Ping',
-                request_serializer=messages__pb2.PingRequest.SerializeToString,
-                response_deserializer=messages__pb2.PingResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.PingRequest.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.PingResponse.FromString,
                 _registered_method=True)
         self.MeasureLink = channel.unary_unary(
                 '/scheduler.WorkerService/MeasureLink',
-                request_serializer=messages__pb2.LinkRequest.SerializeToString,
-                response_deserializer=messages__pb2.LinkResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.LinkRequest.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.LinkResponse.FromString,
                 _registered_method=True)
         self.ProfileTask = channel.unary_unary(
                 '/scheduler.WorkerService/ProfileTask',
-                request_serializer=messages__pb2.TaskProfileRequest.SerializeToString,
-                response_deserializer=messages__pb2.TaskProfileResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.TaskProfileRequest.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.TaskProfileResponse.FromString,
                 _registered_method=True)
         self.ExecuteTask = channel.unary_unary(
                 '/scheduler.WorkerService/ExecuteTask',
-                request_serializer=messages__pb2.ExecuteTaskRequest.SerializeToString,
-                response_deserializer=messages__pb2.ExecuteTaskResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.ExecuteTaskRequest.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.ExecuteTaskResponse.FromString,
                 _registered_method=True)
         self.UploadSchedule = channel.unary_unary(
                 '/scheduler.WorkerService/UploadSchedule',
-                request_serializer=messages__pb2.WorkerSchedule.SerializeToString,
-                response_deserializer=messages__pb2.UploadScheduleResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.WorkerSchedule.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.UploadScheduleResponse.FromString,
                 _registered_method=True)
         self.StartWorkflow = channel.unary_unary(
                 '/scheduler.WorkerService/StartWorkflow',
-                request_serializer=messages__pb2.StartWorkflowRequest.SerializeToString,
-                response_deserializer=messages__pb2.StartWorkflowResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.StartWorkflowRequest.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.StartWorkflowResponse.FromString,
                 _registered_method=True)
         self.TransferArtifact = channel.stream_unary(
                 '/scheduler.WorkerService/TransferArtifact',
-                request_serializer=messages__pb2.ArtifactChunk.SerializeToString,
-                response_deserializer=messages__pb2.ArtifactTransferResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.ArtifactChunk.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.ArtifactTransferResponse.FromString,
                 _registered_method=True)
         self.GetTime = channel.unary_unary(
                 '/scheduler.WorkerService/GetTime',
-                request_serializer=messages__pb2.TimeRequest.SerializeToString,
-                response_deserializer=messages__pb2.TimeResponse.FromString,
+                request_serializer=proto_dot_messages__pb2.TimeRequest.SerializeToString,
+                response_deserializer=proto_dot_messages__pb2.TimeResponse.FromString,
                 _registered_method=True)
 
 
@@ -132,43 +132,43 @@ def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Ping': grpc.unary_unary_rpc_method_handler(
                     servicer.Ping,
-                    request_deserializer=messages__pb2.PingRequest.FromString,
-                    response_serializer=messages__pb2.PingResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.PingRequest.FromString,
+                    response_serializer=proto_dot_messages__pb2.PingResponse.SerializeToString,
             ),
             'MeasureLink': grpc.unary_unary_rpc_method_handler(
                     servicer.MeasureLink,
-                    request_deserializer=messages__pb2.LinkRequest.FromString,
-                    response_serializer=messages__pb2.LinkResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.LinkRequest.FromString,
+                    response_serializer=proto_dot_messages__pb2.LinkResponse.SerializeToString,
             ),
             'ProfileTask': grpc.unary_unary_rpc_method_handler(
                     servicer.ProfileTask,
-                    request_deserializer=messages__pb2.TaskProfileRequest.FromString,
-                    response_serializer=messages__pb2.TaskProfileResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.TaskProfileRequest.FromString,
+                    response_serializer=proto_dot_messages__pb2.TaskProfileResponse.SerializeToString,
             ),
             'ExecuteTask': grpc.unary_unary_rpc_method_handler(
                     servicer.ExecuteTask,
-                    request_deserializer=messages__pb2.ExecuteTaskRequest.FromString,
-                    response_serializer=messages__pb2.ExecuteTaskResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.ExecuteTaskRequest.FromString,
+                    response_serializer=proto_dot_messages__pb2.ExecuteTaskResponse.SerializeToString,
             ),
             'UploadSchedule': grpc.unary_unary_rpc_method_handler(
                     servicer.UploadSchedule,
-                    request_deserializer=messages__pb2.WorkerSchedule.FromString,
-                    response_serializer=messages__pb2.UploadScheduleResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.WorkerSchedule.FromString,
+                    response_serializer=proto_dot_messages__pb2.UploadScheduleResponse.SerializeToString,
             ),
             'StartWorkflow': grpc.unary_unary_rpc_method_handler(
                     servicer.StartWorkflow,
-                    request_deserializer=messages__pb2.StartWorkflowRequest.FromString,
-                    response_serializer=messages__pb2.StartWorkflowResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.StartWorkflowRequest.FromString,
+                    response_serializer=proto_dot_messages__pb2.StartWorkflowResponse.SerializeToString,
             ),
             'TransferArtifact': grpc.stream_unary_rpc_method_handler(
                     servicer.TransferArtifact,
-                    request_deserializer=messages__pb2.ArtifactChunk.FromString,
-                    response_serializer=messages__pb2.ArtifactTransferResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.ArtifactChunk.FromString,
+                    response_serializer=proto_dot_messages__pb2.ArtifactTransferResponse.SerializeToString,
             ),
             'GetTime': grpc.unary_unary_rpc_method_handler(
                     servicer.GetTime,
-                    request_deserializer=messages__pb2.TimeRequest.FromString,
-                    response_serializer=messages__pb2.TimeResponse.SerializeToString,
+                    request_deserializer=proto_dot_messages__pb2.TimeRequest.FromString,
+                    response_serializer=proto_dot_messages__pb2.TimeResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -196,8 +196,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/Ping',
-            messages__pb2.PingRequest.SerializeToString,
-            messages__pb2.PingResponse.FromString,
+            proto_dot_messages__pb2.PingRequest.SerializeToString,
+            proto_dot_messages__pb2.PingResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -223,8 +223,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/MeasureLink',
-            messages__pb2.LinkRequest.SerializeToString,
-            messages__pb2.LinkResponse.FromString,
+            proto_dot_messages__pb2.LinkRequest.SerializeToString,
+            proto_dot_messages__pb2.LinkResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -250,8 +250,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/ProfileTask',
-            messages__pb2.TaskProfileRequest.SerializeToString,
-            messages__pb2.TaskProfileResponse.FromString,
+            proto_dot_messages__pb2.TaskProfileRequest.SerializeToString,
+            proto_dot_messages__pb2.TaskProfileResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -277,8 +277,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/ExecuteTask',
-            messages__pb2.ExecuteTaskRequest.SerializeToString,
-            messages__pb2.ExecuteTaskResponse.FromString,
+            proto_dot_messages__pb2.ExecuteTaskRequest.SerializeToString,
+            proto_dot_messages__pb2.ExecuteTaskResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -304,8 +304,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/UploadSchedule',
-            messages__pb2.WorkerSchedule.SerializeToString,
-            messages__pb2.UploadScheduleResponse.FromString,
+            proto_dot_messages__pb2.WorkerSchedule.SerializeToString,
+            proto_dot_messages__pb2.UploadScheduleResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -331,8 +331,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/StartWorkflow',
-            messages__pb2.StartWorkflowRequest.SerializeToString,
-            messages__pb2.StartWorkflowResponse.FromString,
+            proto_dot_messages__pb2.StartWorkflowRequest.SerializeToString,
+            proto_dot_messages__pb2.StartWorkflowResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -358,8 +358,8 @@ class WorkerService:
             request_iterator,
             target,
             '/scheduler.WorkerService/TransferArtifact',
-            messages__pb2.ArtifactChunk.SerializeToString,
-            messages__pb2.ArtifactTransferResponse.FromString,
+            proto_dot_messages__pb2.ArtifactChunk.SerializeToString,
+            proto_dot_messages__pb2.ArtifactTransferResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -385,8 +385,8 @@ class WorkerService:
             request,
             target,
             '/scheduler.WorkerService/GetTime',
-            messages__pb2.TimeRequest.SerializeToString,
-            messages__pb2.TimeResponse.FromString,
+            proto_dot_messages__pb2.TimeRequest.SerializeToString,
+            proto_dot_messages__pb2.TimeResponse.FromString,
             options,
             channel_credentials,
             insecure,
