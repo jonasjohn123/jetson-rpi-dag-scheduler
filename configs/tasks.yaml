@@ -54,3 +54,58 @@ tasks:
     outputs: []
 
     artifact_sizes_mb: {}
+
+  generate:
+    command: "python workloads/branching/generate.py"
+    preferred: cpu
+
+    inputs: []
+
+    outputs:
+      - data.bin
+
+    artifact_sizes_mb:
+      data.bin: 1
+
+
+  branch_a:
+    command: "python workloads/branching/branch_a.py"
+    preferred: cpu
+
+    inputs:
+      - data.bin
+
+    outputs:
+      - result_a.bin
+
+    artifact_sizes_mb:
+      result_a.bin: 2
+
+
+  branch_b:
+    command: "python workloads/branching/branch_b.py"
+    preferred: cpu
+
+    inputs:
+      - data.bin
+
+    outputs:
+      - result_b.bin
+
+    artifact_sizes_mb:
+      result_b.bin: 3
+
+
+  merge:
+    command: "python workloads/branching/merge.py"
+    preferred: cpu
+
+    inputs:
+      - result_a.bin
+      - result_b.bin
+
+    outputs:
+      - merged.txt
+
+    artifact_sizes_mb:
+      merged.txt: 0.001

@@ -1,0 +1,22 @@
+nodes:
+
+  n0:
+    task_type: generate
+
+  n1:
+    task_type: branch_a
+
+  n2:
+    task_type: branch_b
+
+  n3:
+    task_type: merge
+
+edges:
+
+  - [n0, n1]
+
+  - [n0, n2]
+
+  - [n1, n3]
+  - [n2, n3]

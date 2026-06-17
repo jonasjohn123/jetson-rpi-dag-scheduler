@@ -9,6 +9,11 @@ message PingResponse {
   string worker_id = 1;
 }
 
+message TimeRequest {}
+
+message TimeResponse {
+  int64 timestamp_ms = 1;
+}
 
 message LinkRequest {
   string target_ip = 1;
@@ -179,5 +184,11 @@ service WorkerService {
       stream ArtifactChunk
   ) returns (
       ArtifactTransferResponse
+  );
+  
+  rpc GetTime(
+      TimeRequest
+  ) returns (
+      TimeResponse
   );
 }

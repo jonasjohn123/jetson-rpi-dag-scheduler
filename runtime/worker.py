@@ -40,6 +40,18 @@ class WorkerService(
         return messages_pb2.PingResponse(
             worker_id=WORKER_ID
         )
+    
+    def GetTime(
+        self,
+        request,
+        context
+    ):
+
+        return messages_pb2.TimeResponse(
+            timestamp_ms=int(
+                time.time() * 1000
+            )
+        )
 
     def MeasureLink(
         self,
