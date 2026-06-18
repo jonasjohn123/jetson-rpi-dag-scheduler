@@ -14,6 +14,11 @@ from runtime.queue_builder import (
 
 from statistics import median
 
+from statistics import median
+
+COMPENSATION_THRESHOLD_MS = 50
+MAX_ALLOWED_OFFSET_MS = 1000
+
 def load_mapping():
 
     with open(
@@ -230,22 +235,6 @@ def main():
             print()
 
     print()
-    print("Clock offsets")
-
-    for worker in workers["workers"]:
-
-        offset = measure_offset(
-            worker["ip"]
-        )
-
-        print(
-            worker["id"],
-            ":",
-            offset,
-            "ms"
-        )
-
-    print()
     print(
         "Uploading schedules..."
     )
@@ -288,6 +277,9 @@ def main():
 
     worker_offsets = {}
 
+    print()
+    print("Clock validation")
+
     for worker in workers["workers"]:
 
         offset = measure_offset(
@@ -305,18 +297,65 @@ def main():
             "ms"
         )
 
+        if abs(offset) > MAX_ALLOWED_OFFSET_MS:
+
+            raise RuntimeError(
+
+                f"{worker['id']} clock offset "
+
+                f"too large: {offset} ms"
+
+            )
+
+    print()
+
     for worker in workers["workers"]:
 
+        offset = worker_offsets[
+            worker["id"]
+        ]
+
         adjusted_start = (
-
             start_timestamp_ms
-
-            +
-
-            worker_offsets[
-                worker["id"]
-            ]
         )
+
+        if abs(offset) > COMPENSATION_THRESHOLD_MS:
+
+            adjusted_start = (
+
+                start_timestamp_ms
+
+                +
+
+                offset
+
+            )
+
+            print(
+
+                "[COMPENSATING]",
+
+                worker["id"],
+
+                offset,
+
+                "ms"
+
+            )
+
+        else:
+
+            print(
+
+                "[SYNCED]",
+
+                worker["id"],
+
+                offset,
+
+                "ms"
+
+            )
 
         print(
             "[START]",
