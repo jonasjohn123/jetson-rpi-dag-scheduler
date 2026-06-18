@@ -20,10 +20,13 @@ for output_file in args.output:
 
     if directory:
 
-        os.makedirs(
-            directory,
-            exist_ok=True
-        )
+        if not os.path.exists(
+            directory
+        ):
+
+            os.makedirs(
+                directory
+            )
 
     with open(
         output_file,
