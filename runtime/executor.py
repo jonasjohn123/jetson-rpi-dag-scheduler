@@ -238,6 +238,24 @@ def main():
         "workflow_001"
     )
 
+    
+
+    mapping = (
+        load_mapping()
+    )
+
+    graph = load_dag(
+        "dags/test_dag.yaml"
+    )
+
+    tasks = (
+        load_tasks()
+    )["tasks"]
+
+    workers = (
+        load_workers()
+    )
+
     print()
     print(
         "Cleaning artifacts..."
@@ -258,22 +276,6 @@ def main():
 
             response.message
         )
-
-    mapping = (
-        load_mapping()
-    )
-
-    graph = load_dag(
-        "dags/test_dag.yaml"
-    )
-
-    tasks = (
-        load_tasks()
-    )["tasks"]
-
-    workers = (
-        load_workers()
-    )
 
     worker_lookup = (
         build_worker_lookup()
