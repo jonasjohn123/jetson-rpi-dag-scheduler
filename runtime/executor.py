@@ -16,8 +16,30 @@ from statistics import median
 
 from statistics import median
 
+import shutil
+from pathlib import Path
+
 COMPENSATION_THRESHOLD_MS = 50
 MAX_ALLOWED_OFFSET_MS = 1000
+
+def clean_workflow_artifacts(
+    workflow_id
+):
+
+    path = Path(
+        "artifacts"
+    ) / workflow_id
+
+    if path.exists():
+
+        shutil.rmtree(
+            path
+        )
+
+        print(
+            "[CLEANED]",
+            path
+        )
 
 def load_mapping():
 
@@ -178,12 +200,64 @@ def measure_offset(
         median(offsets)
     )
 
+def clear_workflow(
+    worker_ip,
+    workflow_id
+):
+
+    channel = grpc.insecure_channel(
+        f"{worker_ip}:50051"
+    )
+
+    stub = (
+        messages_pb2_grpc
+        .WorkerServiceStub(
+            channel
+        )
+    )
+
+    request = (
+        messages_pb2
+        .ClearWorkflowRequest(
+
+            workflow_id=
+            workflow_id
+        )
+    )
+
+    return (
+        stub.ClearWorkflow(
+            request
+        )
+    )
+
 
 def main():
 
     workflow_id = (
         "workflow_001"
     )
+
+    print()
+    print(
+        "Cleaning artifacts..."
+    )
+
+    for worker in workers["workers"]:
+
+        response = clear_workflow(
+
+            worker["ip"],
+
+            workflow_id
+        )
+
+        print(
+
+            worker["id"],
+
+            response.message
+        )
 
     mapping = (
         load_mapping()

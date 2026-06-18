@@ -141,6 +141,17 @@ message ExecuteTaskResponse {
   string output = 2;
 }
 
+message ClearWorkflowRequest {
+
+  string workflow_id = 1;
+}
+
+message ClearWorkflowResponse {
+
+  bool success = 1;
+
+  string message = 2;
+}
 
 service WorkerService {
 
@@ -190,5 +201,10 @@ service WorkerService {
       TimeRequest
   ) returns (
       TimeResponse
+  );
+  rpc ClearWorkflow(
+      ClearWorkflowRequest
+  ) returns (
+      ClearWorkflowResponse
   );
 }

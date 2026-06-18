@@ -22,6 +22,9 @@ from runtime.worker_config import (
     get_worker_id
 )
 
+import shutil
+from pathlib import Path
+
 
 task_queue = TaskQueue()
 
@@ -39,6 +42,35 @@ class WorkerService(
 
         return messages_pb2.PingResponse(
             worker_id=WORKER_ID
+        )
+    
+    def ClearWorkflow(
+        self,
+        request,
+        context
+    ):
+
+        path = (
+            Path("artifacts")
+            /
+            request.workflow_id
+        )
+
+        if path.exists():
+
+            shutil.rmtree(
+                path
+            )
+
+        return (
+            messages_pb2
+            .ClearWorkflowResponse(
+
+                success=True,
+
+                message=
+                "Artifacts cleared"
+            )
         )
     
     def GetTime(
