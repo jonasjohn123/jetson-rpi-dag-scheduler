@@ -273,6 +273,8 @@ class TaskQueue:
                 destination.worker_ip
             )
 
+            transfer_start = time.time()
+
             response = send_artifact(
 
                 workflow_id=self.workflow_id,
@@ -287,6 +289,8 @@ class TaskQueue:
 
             )
 
+            transfer_ms = (time.time() - transfer_start) * 1000
+
             if not response.success:
 
                 print(
@@ -299,7 +303,8 @@ class TaskQueue:
             print(
                 "[TRANSFER COMPLETE]",
                 task.task_id,
-                destination.artifact_name
+                destination.artifact_name,
+                f"{transfer_ms:.2f} ms",
             )
 
         return True
