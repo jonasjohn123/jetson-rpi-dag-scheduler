@@ -239,7 +239,7 @@ if __name__ == "__main__":
     )
 
     graph = load_dag(
-        "dags/test_dag.yaml"
+        "dags/branching_dag.yaml"
     )
 
     ranks = compute_ranks(

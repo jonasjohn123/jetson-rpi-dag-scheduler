@@ -245,7 +245,7 @@ def main():
     )
 
     graph = load_dag(
-        "dags/test_dag.yaml"
+        "dags/branching_dag.yaml"
     )
 
     tasks = (

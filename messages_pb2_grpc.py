@@ -74,6 +74,11 @@ class WorkerServiceStub:
                 request_serializer=messages__pb2.TimeRequest.SerializeToString,
                 response_deserializer=messages__pb2.TimeResponse.FromString,
                 _registered_method=True)
+        self.ClearWorkflow = channel.unary_unary(
+                '/scheduler.WorkerService/ClearWorkflow',
+                request_serializer=messages__pb2.ClearWorkflowRequest.SerializeToString,
+                response_deserializer=messages__pb2.ClearWorkflowResponse.FromString,
+                _registered_method=True)
 
 
 class WorkerServiceServicer:
@@ -127,6 +132,12 @@ class WorkerServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ClearWorkflow(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -169,6 +180,11 @@ def add_WorkerServiceServicer_to_server(servicer, server):
                     servicer.GetTime,
                     request_deserializer=messages__pb2.TimeRequest.FromString,
                     response_serializer=messages__pb2.TimeResponse.SerializeToString,
+            ),
+            'ClearWorkflow': grpc.unary_unary_rpc_method_handler(
+                    servicer.ClearWorkflow,
+                    request_deserializer=messages__pb2.ClearWorkflowRequest.FromString,
+                    response_serializer=messages__pb2.ClearWorkflowResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -387,6 +403,33 @@ class WorkerService:
             '/scheduler.WorkerService/GetTime',
             messages__pb2.TimeRequest.SerializeToString,
             messages__pb2.TimeResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ClearWorkflow(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/ClearWorkflow',
+            messages__pb2.ClearWorkflowRequest.SerializeToString,
+            messages__pb2.ClearWorkflowResponse.FromString,
             options,
             channel_credentials,
             insecure,

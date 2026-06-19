@@ -266,6 +266,12 @@ class TaskQueue:
     ):
 
         for destination in task.destinations:
+            print(
+                "[TRANSFER]",
+                task.task_id,
+                destination.artifact_name,
+                destination.worker_ip
+            )
 
             response = send_artifact(
 
@@ -290,6 +296,11 @@ class TaskQueue:
                 )
 
                 return False
+            print(
+                "[TRANSFER COMPLETE]",
+                task.task_id,
+                destination.artifact_name
+            )
 
         return True
 
