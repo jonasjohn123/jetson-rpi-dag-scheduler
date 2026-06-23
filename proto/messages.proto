@@ -36,6 +36,22 @@ message TaskProfileResponse {
   double max_ms = 3;
 }
 
+message TransferProfileRequest {
+
+    string target_ip = 1;
+
+    int32 file_size_mb = 2;
+
+    int32 runs = 3;
+}
+
+message TransferProfileResponse {
+
+    double median_transfer_ms = 1;
+
+    bool success = 2;
+}
+
 
 /* ---------- Artifact Transfer ---------- */
 
@@ -206,5 +222,11 @@ service WorkerService {
       ClearWorkflowRequest
   ) returns (
       ClearWorkflowResponse
+  );
+  rpc ProfileTransfer(
+      TransferProfileRequest
+  )
+  returns (
+      TransferProfileResponse
   );
 }

@@ -113,6 +113,7 @@ def get_avg_comm_cost(
 
     latencies = []
     bandwidths = []
+    overheads = []
 
     links = (
         NETWORK_DATA["links"]
@@ -139,9 +140,21 @@ def get_avg_comm_cost(
                 ["bandwidth_mbps"]
             )
 
+            overheads.append(
+
+                links[src][dst].get(
+                    "overhead_ms", 0.0
+                )
+            )
+
     if not bandwidths:
 
         return 0.0
+    
+    avg_overhead_ms = (
+        sum(overheads)
+        / len(overheads)
+    )
 
     avg_latency_ms = (
 
@@ -172,6 +185,7 @@ def get_avg_comm_cost(
 
         avg_latency_ms
         + transfer_ms
+        + avg_overhead_ms
     )
 
 
@@ -222,6 +236,12 @@ def get_actual_comm_cost(
         / 2.0
     )
 
+    overhead_ms = (
+        link.get(
+            "overhead_ms", 0.0
+        )
+    )
+
     bandwidth_mbps = (
 
         link["bandwidth_mbps"]
@@ -244,4 +264,5 @@ def get_actual_comm_cost(
 
         latency_ms
         + transfer_ms
+        + overhead_ms
     )

@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\tscheduler\"\r\n\x0bPingRequest\"!\n\x0cPingResponse\x12\x11\n\tworker_id\x18\x01 \x01(\t\"\r\n\x0bTimeRequest\"$\n\x0cTimeResponse\x12\x14\n\x0ctimestamp_ms\x18\x01 \x01(\x03\" \n\x0bLinkRequest\x12\x11\n\ttarget_ip\x18\x01 \x01(\t\":\n\x0cLinkResponse\x12\x12\n\nlatency_ms\x18\x01 \x01(\x01\x12\x16\n\x0e\x62\x61ndwidth_mbps\x18\x02 \x01(\x01\"3\n\x12TaskProfileRequest\x12\x0f\n\x07\x63ommand\x18\x01 \x01(\t\x12\x0c\n\x04runs\x18\x02 \x01(\x05\"F\n\x13TaskProfileResponse\x12\x0f\n\x07mean_ms\x18\x01 \x01(\x01\x12\x0e\n\x06min_ms\x18\x02 \x01(\x01\x12\x0e\n\x06max_ms\x18\x03 \x01(\x01\"c\n\rArtifactChunk\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\x12\x18\n\x10producer_task_id\x18\x02 \x01(\t\x12\x15\n\rartifact_name\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"<\n\x18\x41rtifactTransferResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"@\n\rArtifactInput\x12\x18\n\x10producer_task_id\x18\x01 \x01(\t\x12\x15\n\rartifact_name\x18\x02 \x01(\t\"R\n\x13\x41rtifactDestination\x12\x11\n\tworker_id\x18\x01 \x01(\t\x12\x11\n\tworker_ip\x18\x02 \x01(\t\x12\x15\n\rartifact_name\x18\x03 \x01(\t\"\xd7\x01\n\nWorkerTask\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x11\n\ttask_type\x18\x02 \x01(\t\x12\x0f\n\x07\x63ommand\x18\x03 \x01(\t\x12\x10\n\x08start_ms\x18\x04 \x01(\x01\x12\x11\n\tfinish_ms\x18\x05 \x01(\x01\x12(\n\x06inputs\x18\x06 \x03(\x0b\x32\x18.scheduler.ArtifactInput\x12\x0f\n\x07outputs\x18\x07 \x03(\t\x12\x34\n\x0c\x64\x65stinations\x18\x08 \x03(\x0b\x32\x1e.scheduler.ArtifactDestination\"K\n\x0eWorkerSchedule\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\x12$\n\x05tasks\x18\x02 \x03(\x0b\x32\x15.scheduler.WorkerTask\":\n\x16UploadScheduleResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"G\n\x14StartWorkflowRequest\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\x12\x1a\n\x12start_timestamp_ms\x18\x02 \x01(\x03\"9\n\x15StartWorkflowResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"%\n\x12\x45xecuteTaskRequest\x12\x0f\n\x07\x63ommand\x18\x01 \x01(\t\"6\n\x13\x45xecuteTaskResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0e\n\x06output\x18\x02 \x01(\t\"+\n\x14\x43learWorkflowRequest\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\"9\n\x15\x43learWorkflowResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t2\xad\x05\n\rWorkerService\x12\x37\n\x04Ping\x12\x16.scheduler.PingRequest\x1a\x17.scheduler.PingResponse\x12>\n\x0bMeasureLink\x12\x16.scheduler.LinkRequest\x1a\x17.scheduler.LinkResponse\x12L\n\x0bProfileTask\x12\x1d.scheduler.TaskProfileRequest\x1a\x1e.scheduler.TaskProfileResponse\x12L\n\x0b\x45xecuteTask\x12\x1d.scheduler.ExecuteTaskRequest\x1a\x1e.scheduler.ExecuteTaskResponse\x12N\n\x0eUploadSchedule\x12\x19.scheduler.WorkerSchedule\x1a!.scheduler.UploadScheduleResponse\x12R\n\rStartWorkflow\x12\x1f.scheduler.StartWorkflowRequest\x1a .scheduler.StartWorkflowResponse\x12S\n\x10TransferArtifact\x12\x18.scheduler.ArtifactChunk\x1a#.scheduler.ArtifactTransferResponse(\x01\x12:\n\x07GetTime\x12\x16.scheduler.TimeRequest\x1a\x17.scheduler.TimeResponse\x12R\n\rClearWorkflow\x12\x1f.scheduler.ClearWorkflowRequest\x1a .scheduler.ClearWorkflowResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\tscheduler\"\r\n\x0bPingRequest\"!\n\x0cPingResponse\x12\x11\n\tworker_id\x18\x01 \x01(\t\"\r\n\x0bTimeRequest\"$\n\x0cTimeResponse\x12\x14\n\x0ctimestamp_ms\x18\x01 \x01(\x03\" \n\x0bLinkRequest\x12\x11\n\ttarget_ip\x18\x01 \x01(\t\":\n\x0cLinkResponse\x12\x12\n\nlatency_ms\x18\x01 \x01(\x01\x12\x16\n\x0e\x62\x61ndwidth_mbps\x18\x02 \x01(\x01\"3\n\x12TaskProfileRequest\x12\x0f\n\x07\x63ommand\x18\x01 \x01(\t\x12\x0c\n\x04runs\x18\x02 \x01(\x05\"F\n\x13TaskProfileResponse\x12\x0f\n\x07mean_ms\x18\x01 \x01(\x01\x12\x0e\n\x06min_ms\x18\x02 \x01(\x01\x12\x0e\n\x06max_ms\x18\x03 \x01(\x01\"O\n\x16TransferProfileRequest\x12\x11\n\ttarget_ip\x18\x01 \x01(\t\x12\x14\n\x0c\x66ile_size_mb\x18\x02 \x01(\x05\x12\x0c\n\x04runs\x18\x03 \x01(\x05\"F\n\x17TransferProfileResponse\x12\x1a\n\x12median_transfer_ms\x18\x01 \x01(\x01\x12\x0f\n\x07success\x18\x02 \x01(\x08\"c\n\rArtifactChunk\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\x12\x18\n\x10producer_task_id\x18\x02 \x01(\t\x12\x15\n\rartifact_name\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\x0c\"<\n\x18\x41rtifactTransferResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"@\n\rArtifactInput\x12\x18\n\x10producer_task_id\x18\x01 \x01(\t\x12\x15\n\rartifact_name\x18\x02 \x01(\t\"R\n\x13\x41rtifactDestination\x12\x11\n\tworker_id\x18\x01 \x01(\t\x12\x11\n\tworker_ip\x18\x02 \x01(\t\x12\x15\n\rartifact_name\x18\x03 \x01(\t\"\xd7\x01\n\nWorkerTask\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x11\n\ttask_type\x18\x02 \x01(\t\x12\x0f\n\x07\x63ommand\x18\x03 \x01(\t\x12\x10\n\x08start_ms\x18\x04 \x01(\x01\x12\x11\n\tfinish_ms\x18\x05 \x01(\x01\x12(\n\x06inputs\x18\x06 \x03(\x0b\x32\x18.scheduler.ArtifactInput\x12\x0f\n\x07outputs\x18\x07 \x03(\t\x12\x34\n\x0c\x64\x65stinations\x18\x08 \x03(\x0b\x32\x1e.scheduler.ArtifactDestination\"K\n\x0eWorkerSchedule\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\x12$\n\x05tasks\x18\x02 \x03(\x0b\x32\x15.scheduler.WorkerTask\":\n\x16UploadScheduleResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"G\n\x14StartWorkflowRequest\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\x12\x1a\n\x12start_timestamp_ms\x18\x02 \x01(\x03\"9\n\x15StartWorkflowResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"%\n\x12\x45xecuteTaskRequest\x12\x0f\n\x07\x63ommand\x18\x01 \x01(\t\"6\n\x13\x45xecuteTaskResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0e\n\x06output\x18\x02 \x01(\t\"+\n\x14\x43learWorkflowRequest\x12\x13\n\x0bworkflow_id\x18\x01 \x01(\t\"9\n\x15\x43learWorkflowResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t2\x87\x06\n\rWorkerService\x12\x37\n\x04Ping\x12\x16.scheduler.PingRequest\x1a\x17.scheduler.PingResponse\x12>\n\x0bMeasureLink\x12\x16.scheduler.LinkRequest\x1a\x17.scheduler.LinkResponse\x12L\n\x0bProfileTask\x12\x1d.scheduler.TaskProfileRequest\x1a\x1e.scheduler.TaskProfileResponse\x12L\n\x0b\x45xecuteTask\x12\x1d.scheduler.ExecuteTaskRequest\x1a\x1e.scheduler.ExecuteTaskResponse\x12N\n\x0eUploadSchedule\x12\x19.scheduler.WorkerSchedule\x1a!.scheduler.UploadScheduleResponse\x12R\n\rStartWorkflow\x12\x1f.scheduler.StartWorkflowRequest\x1a .scheduler.StartWorkflowResponse\x12S\n\x10TransferArtifact\x12\x18.scheduler.ArtifactChunk\x1a#.scheduler.ArtifactTransferResponse(\x01\x12:\n\x07GetTime\x12\x16.scheduler.TimeRequest\x1a\x17.scheduler.TimeResponse\x12R\n\rClearWorkflow\x12\x1f.scheduler.ClearWorkflowRequest\x1a .scheduler.ClearWorkflowResponse\x12X\n\x0fProfileTransfer\x12!.scheduler.TransferProfileRequest\x1a\".scheduler.TransferProfileResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -47,32 +47,36 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_TASKPROFILEREQUEST']._serialized_end=277
   _globals['_TASKPROFILERESPONSE']._serialized_start=279
   _globals['_TASKPROFILERESPONSE']._serialized_end=349
-  _globals['_ARTIFACTCHUNK']._serialized_start=351
-  _globals['_ARTIFACTCHUNK']._serialized_end=450
-  _globals['_ARTIFACTTRANSFERRESPONSE']._serialized_start=452
-  _globals['_ARTIFACTTRANSFERRESPONSE']._serialized_end=512
-  _globals['_ARTIFACTINPUT']._serialized_start=514
-  _globals['_ARTIFACTINPUT']._serialized_end=578
-  _globals['_ARTIFACTDESTINATION']._serialized_start=580
-  _globals['_ARTIFACTDESTINATION']._serialized_end=662
-  _globals['_WORKERTASK']._serialized_start=665
-  _globals['_WORKERTASK']._serialized_end=880
-  _globals['_WORKERSCHEDULE']._serialized_start=882
-  _globals['_WORKERSCHEDULE']._serialized_end=957
-  _globals['_UPLOADSCHEDULERESPONSE']._serialized_start=959
-  _globals['_UPLOADSCHEDULERESPONSE']._serialized_end=1017
-  _globals['_STARTWORKFLOWREQUEST']._serialized_start=1019
-  _globals['_STARTWORKFLOWREQUEST']._serialized_end=1090
-  _globals['_STARTWORKFLOWRESPONSE']._serialized_start=1092
-  _globals['_STARTWORKFLOWRESPONSE']._serialized_end=1149
-  _globals['_EXECUTETASKREQUEST']._serialized_start=1151
-  _globals['_EXECUTETASKREQUEST']._serialized_end=1188
-  _globals['_EXECUTETASKRESPONSE']._serialized_start=1190
-  _globals['_EXECUTETASKRESPONSE']._serialized_end=1244
-  _globals['_CLEARWORKFLOWREQUEST']._serialized_start=1246
-  _globals['_CLEARWORKFLOWREQUEST']._serialized_end=1289
-  _globals['_CLEARWORKFLOWRESPONSE']._serialized_start=1291
-  _globals['_CLEARWORKFLOWRESPONSE']._serialized_end=1348
-  _globals['_WORKERSERVICE']._serialized_start=1351
-  _globals['_WORKERSERVICE']._serialized_end=2036
+  _globals['_TRANSFERPROFILEREQUEST']._serialized_start=351
+  _globals['_TRANSFERPROFILEREQUEST']._serialized_end=430
+  _globals['_TRANSFERPROFILERESPONSE']._serialized_start=432
+  _globals['_TRANSFERPROFILERESPONSE']._serialized_end=502
+  _globals['_ARTIFACTCHUNK']._serialized_start=504
+  _globals['_ARTIFACTCHUNK']._serialized_end=603
+  _globals['_ARTIFACTTRANSFERRESPONSE']._serialized_start=605
+  _globals['_ARTIFACTTRANSFERRESPONSE']._serialized_end=665
+  _globals['_ARTIFACTINPUT']._serialized_start=667
+  _globals['_ARTIFACTINPUT']._serialized_end=731
+  _globals['_ARTIFACTDESTINATION']._serialized_start=733
+  _globals['_ARTIFACTDESTINATION']._serialized_end=815
+  _globals['_WORKERTASK']._serialized_start=818
+  _globals['_WORKERTASK']._serialized_end=1033
+  _globals['_WORKERSCHEDULE']._serialized_start=1035
+  _globals['_WORKERSCHEDULE']._serialized_end=1110
+  _globals['_UPLOADSCHEDULERESPONSE']._serialized_start=1112
+  _globals['_UPLOADSCHEDULERESPONSE']._serialized_end=1170
+  _globals['_STARTWORKFLOWREQUEST']._serialized_start=1172
+  _globals['_STARTWORKFLOWREQUEST']._serialized_end=1243
+  _globals['_STARTWORKFLOWRESPONSE']._serialized_start=1245
+  _globals['_STARTWORKFLOWRESPONSE']._serialized_end=1302
+  _globals['_EXECUTETASKREQUEST']._serialized_start=1304
+  _globals['_EXECUTETASKREQUEST']._serialized_end=1341
+  _globals['_EXECUTETASKRESPONSE']._serialized_start=1343
+  _globals['_EXECUTETASKRESPONSE']._serialized_end=1397
+  _globals['_CLEARWORKFLOWREQUEST']._serialized_start=1399
+  _globals['_CLEARWORKFLOWREQUEST']._serialized_end=1442
+  _globals['_CLEARWORKFLOWRESPONSE']._serialized_start=1444
+  _globals['_CLEARWORKFLOWRESPONSE']._serialized_end=1501
+  _globals['_WORKERSERVICE']._serialized_start=1504
+  _globals['_WORKERSERVICE']._serialized_end=2279
 # @@protoc_insertion_point(module_scope)

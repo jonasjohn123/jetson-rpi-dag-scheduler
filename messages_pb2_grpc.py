@@ -79,6 +79,11 @@ class WorkerServiceStub:
                 request_serializer=messages__pb2.ClearWorkflowRequest.SerializeToString,
                 response_deserializer=messages__pb2.ClearWorkflowResponse.FromString,
                 _registered_method=True)
+        self.ProfileTransfer = channel.unary_unary(
+                '/scheduler.WorkerService/ProfileTransfer',
+                request_serializer=messages__pb2.TransferProfileRequest.SerializeToString,
+                response_deserializer=messages__pb2.TransferProfileResponse.FromString,
+                _registered_method=True)
 
 
 class WorkerServiceServicer:
@@ -138,6 +143,12 @@ class WorkerServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ProfileTransfer(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -185,6 +196,11 @@ def add_WorkerServiceServicer_to_server(servicer, server):
                     servicer.ClearWorkflow,
                     request_deserializer=messages__pb2.ClearWorkflowRequest.FromString,
                     response_serializer=messages__pb2.ClearWorkflowResponse.SerializeToString,
+            ),
+            'ProfileTransfer': grpc.unary_unary_rpc_method_handler(
+                    servicer.ProfileTransfer,
+                    request_deserializer=messages__pb2.TransferProfileRequest.FromString,
+                    response_serializer=messages__pb2.TransferProfileResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -430,6 +446,33 @@ class WorkerService:
             '/scheduler.WorkerService/ClearWorkflow',
             messages__pb2.ClearWorkflowRequest.SerializeToString,
             messages__pb2.ClearWorkflowResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ProfileTransfer(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/ProfileTransfer',
+            messages__pb2.TransferProfileRequest.SerializeToString,
+            messages__pb2.TransferProfileResponse.FromString,
             options,
             channel_credentials,
             insecure,
