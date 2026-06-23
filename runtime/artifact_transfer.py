@@ -10,7 +10,7 @@ from runtime.artifact_manager import (
 )
 
 
-CHUNK_SIZE = 1024 * 1024
+CHUNK_SIZE = 4 * 1024 * 1024
 
 
 def generate_chunks(
