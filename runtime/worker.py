@@ -181,6 +181,16 @@ class WorkerService(
                 target_ip
             )
 
+            send_ms = (
+                time.time() - start
+            ) * 1000
+
+            print(
+                "[PROFILE SEND]",
+                round(send_ms, 2),
+                "ms"
+            )
+
             if not response.success:
 
                 return (
@@ -197,10 +207,6 @@ class WorkerService(
                 start
 
             ) * 1000
-
-            start = time.time()
-
-            response = send_artifact(...)
 
             send_ms = (
                 time.time() - start
