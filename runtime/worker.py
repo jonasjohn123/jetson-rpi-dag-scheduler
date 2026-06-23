@@ -103,6 +103,19 @@ class WorkerService(
             latency_ms=latency,
             bandwidth_mbps=bandwidth
         )
+    
+    def ProfileTransfer(
+        self,
+        request,
+        context
+    ):
+
+        return (
+            self.task_queue
+            .profile_transfer(
+                request
+            )
+        )
 
     def ProfileTask(
         self,
