@@ -198,6 +198,20 @@ class WorkerService(
 
             ) * 1000
 
+            start = time.time()
+
+            response = send_artifact(...)
+
+            send_ms = (
+                time.time() - start
+            ) * 1000
+
+            print(
+                "[PROFILE SEND]",
+                round(send_ms, 2),
+                "ms"
+            )
+
             measurements.append(
                 transfer_ms
             )
