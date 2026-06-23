@@ -1,9 +1,13 @@
 import grpc
 import yaml
+from pathlib import Path
 
 import messages_pb2
 import messages_pb2_grpc
 
+TRANSFER_FILE = Path(
+    "configs/transfer_profiles.yaml"
+)
 
 def load_workers():
 
@@ -53,6 +57,56 @@ def profile_transfer(
 
     return response
 
+def save_transfer_profile(
+    src,
+    dst,
+    size_mb,
+    transfer_ms
+):
+
+    if TRANSFER_FILE.exists():
+
+        with open(
+            TRANSFER_FILE,
+            "r"
+        ) as f:
+
+            data = yaml.safe_load(f)
+
+            if data is None:
+
+                data = {
+                    "links": {}
+                }
+
+    else:
+
+        data = {
+            "links": {}
+        }
+
+    if src not in data["links"]:
+
+        data["links"][src] = {}
+
+    if dst not in data["links"][src]:
+
+        data["links"][src][dst] = {}
+
+    data["links"][src][dst][size_mb] = (
+        transfer_ms
+    )
+
+    with open(
+        TRANSFER_FILE,
+        "w"
+    ) as f:
+
+        yaml.dump(
+            data,
+            f,
+            sort_keys=False
+        )
 
 def main():
 
@@ -108,23 +162,35 @@ def main():
                     )
                 )
 
+                transfer_ms = round(
+
+                    response
+                    .median_transfer_ms,
+
+                    2
+                )
+
                 print(
 
                     size,
 
                     "MB :",
 
-                    round(
-
-                        response
-                        .median_transfer_ms,
-
-                        2
-                    ),
+                    transfer_ms,
 
                     "ms"
                 )
 
+                save_transfer_profile(
+
+                    source["id"],
+
+                    target["id"],
+
+                    size,
+
+                    transfer_ms
+                )
 if __name__ == "__main__":
 
     main()
