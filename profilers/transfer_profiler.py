@@ -1,232 +1,98 @@
-import time
+import grpc
 import yaml
-import tempfile
-import os
 
-from statistics import median
+import messages_pb2
+import messages_pb2_grpc
 
-from runtime.artifact_transfer import (
-    send_artifact
-)
-
-from runtime.artifact_manager import (
-    artifact_path
-)
-
-
-WORKERS_FILE = "configs/workers.yaml"
-
-NETWORK_FILE = (
-    "configs/network_profiles.yaml"
-)
-
-WORKFLOW_ID = (
-    "transfer_profile"
-)
-
-TASK_ID = (
-    "profiler"
-)
-
-FILE_SIZE_MB = 1
-
-RUNS = 20
-
-def create_test_file():
-
-    path = artifact_path(
-
-        WORKFLOW_ID,
-
-        TASK_ID,
-
-        "test.bin"
-    )
-
-    directory = os.path.dirname(
-        path
-    )
-
-    if not os.path.exists(
-        directory
-    ):
-
-        os.makedirs(
-            directory
-        )
-
-    with open(
-        path,
-        "wb"
-    ) as f:
-
-        f.write(
-            os.urandom(
-                FILE_SIZE_MB
-                *
-                1024
-                *
-                1024
-            )
-        )
 
 def load_workers():
 
     with open(
-        WORKERS_FILE,
+        "configs/workers.yaml",
         "r"
     ) as f:
 
         return yaml.safe_load(f)
 
 
-def load_network():
-
-    with open(
-        NETWORK_FILE,
-        "r"
-    ) as f:
-
-        return yaml.safe_load(f)
-    
-def profile_link(
-    src_worker,
-    dst_worker,
-    dst_ip,
-    bandwidth_mbps
+def profile_transfer(
+    worker_ip,
+    target_ip,
+    file_size_mb=1,
+    runs=5
 ):
 
-    measurements = []
-
-    theoretical_ms = (
-
-        FILE_SIZE_MB
-        * 8
-        / bandwidth_mbps
-
-    ) * 1000
-
-    for _ in range(RUNS):
-
-        start = time.time()
-
-        send_artifact(
-
-            workflow_id=
-            WORKFLOW_ID,
-
-            producer_task_id=
-            TASK_ID,
-
-            artifact_name=
-            "test.bin",
-
-            worker_ip=
-            dst_ip
-        )
-
-        actual_ms = (
-
-            time.time()
-            - start
-
-        ) * 1000
-
-        overhead_ms = (
-
-            actual_ms
-            -
-            theoretical_ms
-        )
-
-        measurements.append(
-            overhead_ms
-        )
-
-    median_overhead = (
-        median(measurements)
+    channel = grpc.insecure_channel(
+        f"{worker_ip}:50051"
     )
 
-    print(
-
-        src_worker,
-        "->",
-        dst_worker,
-
-        f"{median_overhead:.2f} ms"
+    stub = (
+        messages_pb2_grpc
+        .WorkerServiceStub(
+            channel
+        )
     )
 
-    return median_overhead
+    response = (
+        stub.ProfileTransfer(
+
+            messages_pb2
+            .TransferProfileRequest(
+
+                target_ip=
+                target_ip,
+
+                file_size_mb=
+                file_size_mb,
+
+                runs=
+                runs
+            )
+        )
+    )
+
+    return response
 
 
 def main():
 
-    create_test_file()
-
     workers = load_workers()
 
-    network = load_network()
+    laptop_ip = None
+    rpi_ip = None
 
-    links = network["links"]
+    for worker in workers["workers"]:
 
-    for src in links:
+        if worker["id"] == "laptop01":
 
-        for dst in links[src]:
+            laptop_ip = worker["ip"]
 
-            bandwidth = (
+        elif worker["id"] == "rpi01":
 
-                links[src][dst]
-                ["bandwidth_mbps"]
-            )
+            rpi_ip = worker["ip"]
 
-            dst_ip = None
+    response = profile_transfer(
 
-            for worker in (
-                workers["workers"]
-            ):
+        worker_ip=laptop_ip,
 
-                if (
-                    worker["id"]
-                    ==
-                    dst
-                ):
+        target_ip=rpi_ip,
 
-                    dst_ip = (
-                        worker["ip"]
-                    )
+        file_size_mb=1,
 
-                    break
-
-            overhead = (
-                profile_link(
-                    src,
-                    dst,
-                    dst_ip,
-                    bandwidth
-                )
-            )
-
-            links[src][dst][
-                "overhead_ms"
-            ] = round(
-                overhead,
-                2
-            )
-
-    with open(
-        NETWORK_FILE,
-        "w"
-    ) as f:
-
-        yaml.safe_dump(
-            network,
-            f,
-            sort_keys=False
-        )
+        runs=5
+    )
 
     print()
+
     print(
-        "Transfer profiling complete."
+        "Median transfer:",
+        response.median_transfer_ms,
+        "ms"
+    )
+
+    print(
+        "Success:",
+        response.success
     )
 
 

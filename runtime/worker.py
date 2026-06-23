@@ -3,6 +3,8 @@ from concurrent import futures
 
 import subprocess
 import time
+import os
+from statistics import median
 
 import messages_pb2
 import messages_pb2_grpc
@@ -110,16 +112,101 @@ class WorkerService(
         context
     ):
 
-        print(
-            "[PROFILE TRANSFER]",
-            request.target_ip,
-            request.file_size_mb,
-            request.runs
+        workflow_id = "transfer_profile"
+
+        task_id = "profiler"
+
+        artifact_name = "test.bin"
+
+        file_size_mb = request.file_size_mb
+
+        runs = request.runs
+
+        target_ip = request.target_ip
+
+        measurements = []
+
+        path = artifact_path(
+            workflow_id,
+            task_id,
+            artifact_name
         )
 
+        directory = os.path.dirname(
+            path
+        )
+
+        if not os.path.exists(
+            directory
+        ):
+            os.makedirs(
+                directory
+            )
+
+        with open(
+            path,
+            "wb"
+        ) as f:
+
+            f.write(
+                os.urandom(
+                    file_size_mb
+                    *
+                    1024
+                    *
+                    1024
+                )
+            )
+
+        for _ in range(runs):
+
+            start = time.time()
+
+            response = send_artifact(
+
+                workflow_id=
+                workflow_id,
+
+                producer_task_id=
+                task_id,
+
+                artifact_name=
+                artifact_name,
+
+                worker_ip=
+                target_ip
+            )
+
+            if not response.success:
+
+                return (
+                    messages_pb2
+                    .TransferProfileResponse(
+                        success=False
+                    )
+                )
+
+            transfer_ms = (
+
+                time.time()
+                -
+                start
+
+            ) * 1000
+
+            measurements.append(
+                transfer_ms
+            )
+
         return (
-            messages_pb2.TransferProfileResponse(
-                median_transfer_ms=0.0,
+            messages_pb2
+            .TransferProfileResponse(
+
+                median_transfer_ms=
+                median(
+                    measurements
+                ),
+
                 success=True
             )
         )
