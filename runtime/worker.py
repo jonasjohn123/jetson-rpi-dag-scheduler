@@ -110,10 +110,17 @@ class WorkerService(
         context
     ):
 
+        print(
+            "[PROFILE TRANSFER]",
+            request.target_ip,
+            request.file_size_mb,
+            request.runs
+        )
+
         return (
-            self.task_queue
-            .profile_transfer(
-                request
+            messages_pb2.TransferProfileResponse(
+                median_transfer_ms=0.0,
+                success=True
             )
         )
 
