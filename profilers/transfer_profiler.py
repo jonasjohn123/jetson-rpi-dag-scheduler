@@ -58,43 +58,72 @@ def main():
 
     workers = load_workers()
 
-    laptop_ip = None
-    rpi_ip = None
+    sizes = [
+        1,
+        5,
+        10
+    ]
 
-    for worker in workers["workers"]:
+    for source in workers["workers"]:
 
-        if worker["id"] == "laptop01":
+        for target in workers["workers"]:
 
-            laptop_ip = worker["ip"]
+            if (
+                source["id"]
+                ==
+                target["id"]
+            ):
+                continue
 
-        elif worker["id"] == "rpi01":
+            print()
+            print(
+                "=" * 50
+            )
 
-            rpi_ip = worker["ip"]
+            print(
+                source["id"],
+                "->",
+                target["id"]
+            )
 
-    response = profile_transfer(
+            print(
+                "=" * 50
+            )
 
-        worker_ip=laptop_ip,
+            for size in sizes:
 
-        target_ip=rpi_ip,
+                response = (
+                    profile_transfer(
 
-        file_size_mb=1,
+                        worker_ip=
+                        source["ip"],
 
-        runs=5
-    )
+                        target_ip=
+                        target["ip"],
 
-    print()
+                        file_size_mb=
+                        size,
 
-    print(
-        "Median transfer:",
-        response.median_transfer_ms,
-        "ms"
-    )
+                        runs=5
+                    )
+                )
 
-    print(
-        "Success:",
-        response.success
-    )
+                print(
 
+                    size,
+
+                    "MB :",
+
+                    round(
+
+                        response
+                        .median_transfer_ms,
+
+                        2
+                    ),
+
+                    "ms"
+                )
 
 if __name__ == "__main__":
 

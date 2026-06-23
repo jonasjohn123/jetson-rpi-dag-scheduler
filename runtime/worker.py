@@ -305,9 +305,9 @@ class WorkerService(
         )
 
     def TransferArtifact(
-    self,
-    request_iterator,
-    context
+        self,
+        request_iterator,
+        context
     ):
 
         workflow_id = None
@@ -318,9 +318,14 @@ class WorkerService(
 
         file_handle = None
 
+        network_time = 0
+        write_time = 0
+
         try:
 
             for request in request_iterator:
+
+                network_end = time.time()
 
                 if first_chunk:
 
@@ -354,15 +359,47 @@ class WorkerService(
 
                     first_chunk = False
 
+                write_start = time.time()
+
                 file_handle.write(
                     request.data
                 )
+
+                write_time += (
+                    time.time()
+                    - write_start
+                )
+
+                network_time += (
+                    network_end
+                    - previous_chunk_time
+                ) if 'previous_chunk_time' in locals() else 0
+
+                previous_chunk_time = time.time()
 
         finally:
 
             if file_handle:
 
                 file_handle.close()
+
+        print(
+            "[NETWORK]",
+            round(
+                network_time * 1000,
+                2
+            ),
+            "ms"
+        )
+
+        print(
+            "[WRITE]",
+            round(
+                write_time * 1000,
+                2
+            ),
+            "ms"
+        )
 
         return (
             messages_pb2
