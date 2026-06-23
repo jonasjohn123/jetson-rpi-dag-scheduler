@@ -1,3 +1,5 @@
+from time import time
+
 import grpc
 
 import messages_pb2
@@ -62,6 +64,8 @@ def send_artifact(
         )
     )
 
+    start = time.time()
+
     response = (
         stub.TransferArtifact(
             generate_chunks(
@@ -70,6 +74,15 @@ def send_artifact(
                 artifact_name
             )
         )
+    )
+
+    print(
+        "[SEND RPC]",
+        round(
+            (time.time() - start) * 1000,
+            2
+        ),
+        "ms"
     )
 
     return response
