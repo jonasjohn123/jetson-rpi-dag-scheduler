@@ -24,6 +24,10 @@ from runtime.worker_config import (
     get_worker_id
 )
 
+from runtime.artifact_transfer import (
+    send_artifact
+)
+
 import shutil
 from pathlib import Path
 
