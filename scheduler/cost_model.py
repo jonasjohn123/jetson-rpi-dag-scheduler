@@ -1,6 +1,9 @@
 import yaml
 from pathlib import Path
 
+from scheduler.transfer_cost import (
+    get_transfer_time_ms
+)
 
 TASKS_FILE = Path(
     "configs/tasks.yaml"
@@ -19,6 +22,8 @@ with open(TASKS_FILE, "r") as f:
 with open(NETWORK_FILE, "r") as f:
 
     NETWORK_DATA = yaml.safe_load(f)
+
+COMM_SLACK_MS = 25
 
 
 def get_edge_data_size_mb(
@@ -189,28 +194,14 @@ def get_avg_comm_cost(
     )
 
 
+"""
 def get_actual_comm_cost(
     src_worker,
     dst_worker,
     parent_task_type,
     child_task_type
 ):
-    """
-    Actual communication cost.
-
-    Used during processor selection.
-
-    Formula:
-
-        one_way_latency
-        +
-        data_size / bandwidth
-
-    Returns:
-        float
-            Communication cost in ms.
-    """
-
+ 
     if src_worker == dst_worker:
 
         return 0.0
@@ -265,4 +256,33 @@ def get_actual_comm_cost(
         latency_ms
         + transfer_ms
         + overhead_ms
+    )
+"""
+def get_actual_comm_cost(
+    src_worker,
+    dst_worker,
+    parent_task_type,
+    child_task_type
+):
+
+    if src_worker == dst_worker:
+
+        return 0.0
+
+    data_size_mb = (
+
+        get_edge_data_size_mb(
+            parent_task_type,
+            child_task_type
+        )
+    )
+
+    return (
+        get_transfer_time_ms(
+            src_worker,
+            dst_worker,
+            data_size_mb
+        ) 
+        +
+        COMM_SLACK_MS
     )

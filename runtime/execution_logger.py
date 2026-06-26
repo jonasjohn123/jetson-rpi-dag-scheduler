@@ -2,24 +2,30 @@ import json
 from pathlib import Path
 
 
-LOG_FILE = Path(
-    "results/execution_log.json"
-)
-
-
 def log_execution(entry):
+
+    workflow_id = entry["workflow_id"]
+
+    log_file = (
+
+        Path("results")
+
+        / workflow_id
+
+        / "execution_log.json"
+    )
 
     logs = []
 
-    LOG_FILE.parent.mkdir(
+    log_file.parent.mkdir(
         parents=True,
         exist_ok=True
     )
 
-    if LOG_FILE.exists():
+    if log_file.exists():
 
         with open(
-            LOG_FILE,
+            log_file,
             "r"
         ) as f:
 
@@ -28,7 +34,7 @@ def log_execution(entry):
     logs.append(entry)
 
     with open(
-        LOG_FILE,
+        log_file,
         "w"
     ) as f:
 

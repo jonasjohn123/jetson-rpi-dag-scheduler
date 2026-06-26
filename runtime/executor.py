@@ -3,6 +3,9 @@ import json
 import grpc
 import yaml
 
+from pathlib import Path
+import json
+
 import messages_pb2
 import messages_pb2_grpc
 
@@ -238,11 +241,47 @@ def main():
         "workflow_001"
     )
 
+
+
+    workflow_dir = (
+        Path("results")
+        / workflow_id
+    )
+
+    workflow_dir.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    with open(
+        workflow_dir
+        / "execution_log.json",
+        "w"
+    ) as f:
+
+        json.dump(
+            [],
+            f,
+            indent=4
+        )
+
     
 
     mapping = (
         load_mapping()
     )
+
+    with open(
+        workflow_dir
+        / "schedule.json",
+        "w"
+    ) as f:
+
+        json.dump(
+            mapping,
+            f,
+            indent=4
+        )
 
     graph = load_dag(
         "dags/branching_dag.yaml"
