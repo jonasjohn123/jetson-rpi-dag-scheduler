@@ -114,7 +114,8 @@ class TaskQueue:
     def run_task(
         self,
         task,
-        scheduled_start
+        scheduled_start,
+        actual_start
     ):
 
         allocated_seconds = (
@@ -158,6 +159,11 @@ class TaskQueue:
                 time.time() * 1000
             )
 
+            idle_ms=max(
+                0,
+                scheduled_finish - actual_finish
+            )
+
             log_execution(
 
                 {
@@ -173,8 +179,14 @@ class TaskQueue:
                     "scheduled_finish":
                         scheduled_finish,
 
+                    "actual_start":
+                        actual_start,
+
                     "actual_finish":
                         actual_finish,
+
+                    "idle_ms":
+                        idle_ms,
 
                     "delta_ms":
                         actual_finish
@@ -373,7 +385,8 @@ class TaskQueue:
 
             success = self.run_task(
                 task,
-                scheduled_start
+                scheduled_start,
+                actual_start
             )
 
             if not success:
