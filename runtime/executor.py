@@ -123,7 +123,8 @@ def upload_schedule(
 def start_workflow(
     worker_ip,
     workflow_id,
-    start_timestamp_ms
+    start_timestamp_ms,
+    worker_offset_ms
 ):
 
     channel = grpc.insecure_channel(
@@ -141,7 +142,9 @@ def start_workflow(
         messages_pb2.StartWorkflowRequest(
             workflow_id=workflow_id,
             start_timestamp_ms=
-            start_timestamp_ms
+            start_timestamp_ms,
+            worker_offset_ms=
+            worker_offset_ms
         )
     )
 
@@ -514,7 +517,9 @@ def main():
 
             workflow_id,
 
-            adjusted_start
+            adjusted_start,
+            
+            offset
         )
 
     print()
@@ -522,7 +527,12 @@ def main():
         "Workflow launched"
     )
 
-    time.sleep(15)
+    wait_time = (
+        mapping["makespan_ms"]
+        / 1000
+    ) + 5
+
+    time.sleep(wait_time)
 
     combined_logs = []
 

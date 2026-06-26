@@ -342,7 +342,8 @@ class WorkerService(
     ):
 
         task_queue.start(
-            request.start_timestamp_ms
+            request.start_timestamp_ms,
+            request.worker_offset_ms
         )
 
         return messages_pb2.StartWorkflowResponse(

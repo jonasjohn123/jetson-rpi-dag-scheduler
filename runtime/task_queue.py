@@ -47,11 +47,16 @@ class TaskQueue:
 
     def start(
         self,
-        start_timestamp_ms
+        start_timestamp_ms,
+        worker_offset_ms
     ):
 
         self.start_timestamp_ms = (
             start_timestamp_ms
+        )
+
+        self.worker_offset_ms = (
+            worker_offset_ms
         )
 
         self.started = True
@@ -164,6 +169,24 @@ class TaskQueue:
                 scheduled_finish - actual_finish
             )
 
+            actual_start_global = (
+
+                actual_start
+
+                -
+
+                self.worker_offset_ms
+            )
+
+            actual_finish_global = (
+
+                actual_finish
+
+                -
+
+                self.worker_offset_ms
+            )
+
             log_execution(
 
                 {
@@ -179,11 +202,20 @@ class TaskQueue:
                     "scheduled_finish":
                         scheduled_finish,
 
+                    "worker_offset_ms":
+                        self.worker_offset_ms,
+
                     "actual_start":
                         actual_start,
 
                     "actual_finish":
                         actual_finish,
+
+                    "actual_start_global":
+                        actual_start_global,
+
+                    "actual_finish_global":
+                        actual_finish_global,
 
                     "idle_ms":
                         idle_ms,
