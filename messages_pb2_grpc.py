@@ -84,6 +84,11 @@ class WorkerServiceStub:
                 request_serializer=messages__pb2.TransferProfileRequest.SerializeToString,
                 response_deserializer=messages__pb2.TransferProfileResponse.FromString,
                 _registered_method=True)
+        self.GetExecutionLog = channel.unary_unary(
+                '/scheduler.WorkerService/GetExecutionLog',
+                request_serializer=messages__pb2.ExecutionLogRequest.SerializeToString,
+                response_deserializer=messages__pb2.ExecutionLogResponse.FromString,
+                _registered_method=True)
 
 
 class WorkerServiceServicer:
@@ -149,6 +154,12 @@ class WorkerServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetExecutionLog(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -201,6 +212,11 @@ def add_WorkerServiceServicer_to_server(servicer, server):
                     servicer.ProfileTransfer,
                     request_deserializer=messages__pb2.TransferProfileRequest.FromString,
                     response_serializer=messages__pb2.TransferProfileResponse.SerializeToString,
+            ),
+            'GetExecutionLog': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetExecutionLog,
+                    request_deserializer=messages__pb2.ExecutionLogRequest.FromString,
+                    response_serializer=messages__pb2.ExecutionLogResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -473,6 +489,33 @@ class WorkerService:
             '/scheduler.WorkerService/ProfileTransfer',
             messages__pb2.TransferProfileRequest.SerializeToString,
             messages__pb2.TransferProfileResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetExecutionLog(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/GetExecutionLog',
+            messages__pb2.ExecutionLogRequest.SerializeToString,
+            messages__pb2.ExecutionLogResponse.FromString,
             options,
             channel_credentials,
             insecure,
