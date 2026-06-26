@@ -428,6 +428,45 @@ class WorkerService(
                 message="Artifact received"
             )
         )
+    
+    def GetExecutionLog(
+        self,
+        request,
+        context
+    ):
+            
+        log_file = (
+            Path("results")
+            /
+            request.workflow_id
+            /
+            "execution_log.json"
+        )
+
+        if not log_file.exists():
+
+            return (
+                messages_pb2
+                .ExecutionLogResponse(
+                    json_data="[]"
+                )
+            )
+
+        with open(
+            log_file,
+            "r"
+        ) as f:
+
+            data = f.read()
+
+        return (
+            messages_pb2
+            .ExecutionLogResponse(
+                json_data=data
+            )
+        )
+        
+
 subprocess.Popen(
     [
         "iperf3",

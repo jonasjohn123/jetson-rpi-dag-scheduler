@@ -169,6 +169,14 @@ message ClearWorkflowResponse {
   string message = 2;
 }
 
+message ExecutionLogRequest {
+  string workflow_id = 1;
+}
+
+message ExecutionLogResponse {
+  string json_data = 1;
+}
+
 service WorkerService {
 
   rpc Ping(
@@ -228,5 +236,11 @@ service WorkerService {
   )
   returns (
       TransferProfileResponse
+  );
+  rpc GetExecutionLog(
+      ExecutionLogRequest
+  )
+  returns (
+      ExecutionLogResponse
   );
 }
