@@ -234,6 +234,36 @@ def clear_workflow(
         )
     )
 
+def get_execution_log(
+    worker_ip,
+    workflow_id
+):
+
+    channel = grpc.insecure_channel(
+        f"{worker_ip}:50051"
+    )
+
+    stub = (
+        messages_pb2_grpc
+        .WorkerServiceStub(
+            channel
+        )
+    )
+
+    response = stub.GetExecutionLog(
+
+        messages_pb2
+        .ExecutionLogRequest(
+
+            workflow_id=
+            workflow_id
+        )
+    )
+
+    return json.loads(
+        response.json_data
+    )
+
 
 def main():
 
@@ -490,6 +520,55 @@ def main():
     print()
     print(
         "Workflow launched"
+    )
+
+    time.sleep(15)
+
+    combined_logs = []
+
+    for worker in workers["workers"]:
+
+        logs = get_execution_log(
+
+            worker["ip"],
+
+            workflow_id
+        )
+
+        combined_logs.extend(
+            logs
+        )
+
+    combined_logs.sort(
+
+        key=lambda entry:
+        entry["scheduled_start"]
+    )
+
+    with open(
+
+        workflow_dir
+        / "execution_log.json",
+
+        "w"
+
+    ) as f:
+
+        json.dump(
+
+            combined_logs,
+
+            f,
+
+            indent=4
+        )
+
+    print()
+
+    print(
+        "[LOGS COLLECTED]",
+        len(combined_logs),
+        "entries"
     )
 
 

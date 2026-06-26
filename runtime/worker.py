@@ -1,3 +1,5 @@
+import json
+
 import grpc
 from concurrent import futures
 
@@ -66,6 +68,30 @@ class WorkerService(
 
             shutil.rmtree(
                 path
+            )
+
+        log_file = (
+            Path("results")
+            /
+            request.workflow_id
+            /
+            "execution_log.json"
+        )
+
+        log_file.parent.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
+        with open(
+            log_file,
+            "w"
+        ) as f:
+
+            json.dump(
+                [],
+                f,
+                indent=4
             )
 
         return (
