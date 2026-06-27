@@ -186,6 +186,7 @@ message WorkflowStatusRequest {
 
 message WorkflowStatusResponse {
   bool completed = 1;
+  bool failed =2;
 }
 
 service WorkerService {
