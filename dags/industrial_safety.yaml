@@ -1,0 +1,29 @@
+nodes:
+
+  capture:
+    task_type: capture
+
+  preprocess:
+    task_type: preprocess
+
+  detect_person:
+    task_type: detect_person
+
+  detect_helmet:
+    task_type: detect_helmet
+
+  decide:
+    task_type: decide
+
+
+edges:
+
+  - [capture, preprocess]
+
+  - [preprocess, detect_person]
+
+  - [preprocess, detect_helmet]
+
+  - [detect_person, decide]
+
+  - [detect_helmet, decide]

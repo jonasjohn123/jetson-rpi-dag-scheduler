@@ -1,32 +1,32 @@
 tasks:
 
-  capture:
-    command: "python workloads/vision/capture.py"
-    preferred: camera
-
-    inputs: []
-
-    outputs:
-      - frame.jpg
-
-    artifact_sizes_mb:
-      frame.jpg: 5
-
-  preprocess:
-    command: "python workloads/vision/preprocess.py"
-    preferred: cpu
-
-    inputs:
-      - frame.jpg
-
-    outputs:
-      - tensor.npy
-      - metadata.json
-
-    artifact_sizes_mb:
-      tensor.npy: 10
-      metadata.json: 10
-
+#  capture:
+#    command: "python workloads/vision/capture.py"
+#    preferred: camera
+#
+#    inputs: []
+#
+#    outputs:
+#      - frame.jpg
+#
+#    artifact_sizes_mb:
+#      frame.jpg: 5
+#
+#  preprocess:
+#    command: "python workloads/vision/preprocess.py"
+#    preferred: cpu
+#
+#    inputs:
+#      - frame.jpg
+#
+#    outputs:
+#      - tensor.npy
+#      - metadata.json
+#
+#    artifact_sizes_mb:
+#      tensor.npy: 10
+#      metadata.json: 10
+#
   detect:
     command: "python workloads/vision/detect.py"
     preferred: gpu
@@ -109,3 +109,81 @@ tasks:
 
     artifact_sizes_mb:
       merged.txt: 0.001
+
+  capture:
+    command: >
+      python workloads/industrial_safety/capture.py
+      --source test_images/frame.jpg
+      --output artifacts/{workflow}/capture/frame.jpg
+
+    outputs:
+      - frame.jpg
+
+    artifact_sizes_mb:
+      frame.jpg: 0.8
+
+
+  preprocess:
+    command: >
+      python workloads/industrial_safety/preprocess.py
+      --input artifacts/workflow_001/capture/frame.jpg
+      --output artifacts/workflow_001/preprocess/preprocessed.jpg
+
+    inputs:
+      - frame.jpg
+
+    outputs:
+      - preprocessed.jpg
+
+    artifact_sizes_mb:
+      preprocessed.jpg: 0.5
+
+
+  detect_person:
+    command: >
+      python workloads/industrial_safety/detect_person.py
+      --input artifacts/workflow_001/preprocess/preprocessed.jpg
+      --output artifacts/workflow_001/detect_person/persons.json
+
+    inputs:
+      - preprocessed.jpg
+
+    outputs:
+      - persons.json
+
+    artifact_sizes_mb:
+      persons.json: 0.001
+
+
+  detect_helmet:
+    command: >
+      python workloads/industrial_safety/detect_helmet.py
+      --input artifacts/workflow_001/preprocess/preprocessed.jpg
+      --output artifacts/workflow_001/detect_helmet/helmets.json
+
+    inputs:
+      - preprocessed.jpg
+
+    outputs:
+      - helmets.json
+
+    artifact_sizes_mb:
+      helmets.json: 0.001
+
+
+  decide:
+    command: >
+      python workloads/industrial_safety/decide.py
+      --persons artifacts/workflow_001/detect_person/persons.json
+      --helmets artifacts/workflow_001/detect_helmet/helmets.json
+      --output artifacts/workflow_001/decide/report.txt
+
+    inputs:
+      - persons.json
+      - helmets.json
+
+    outputs:
+      - report.txt
+
+    artifact_sizes_mb:
+      report.txt: 0.001

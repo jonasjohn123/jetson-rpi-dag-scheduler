@@ -343,7 +343,7 @@ def main():
         )
 
     graph = load_dag(
-        "dags/branching_dag.yaml"
+        "dags/industrial_safety.yaml"
     )
 
     tasks = (
