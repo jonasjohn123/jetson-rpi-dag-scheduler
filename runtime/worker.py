@@ -499,8 +499,16 @@ class WorkerService(
         context
     ):
 
-        return messages_pb2.WorkflowStatusResponse(
-            completed=task_queue.is_completed()
+        return (
+            messages_pb2
+            .WorkflowStatusResponse(
+
+                completed=
+                task_queue.is_completed(),
+
+                failed=
+                task_queue.is_failed()
+            )
         )
         
 

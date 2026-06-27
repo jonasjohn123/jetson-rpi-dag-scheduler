@@ -25,6 +25,12 @@ class TaskQueue:
 
         self.started = False
 
+        self.completed = False
+
+        self.failed = False
+
+        self.worker_offset_ms = 0
+
         self.start_timestamp_ms = None
 
         self.lock = threading.Lock()
@@ -58,6 +64,10 @@ class TaskQueue:
         self.worker_offset_ms = (
             worker_offset_ms
         )
+
+        self.completed = False
+
+        self.failed = False
 
         self.started = True
 
@@ -352,6 +362,19 @@ class TaskQueue:
             )
 
         return True
+    
+    def is_completed(
+        self
+    ):
+
+        return self.completed
+
+
+    def is_failed(
+        self
+    ):
+
+        return self.failed
 
     def run(self):
 
@@ -413,6 +436,8 @@ class TaskQueue:
                     "missing artifacts"
                 )
 
+                self.failed = True
+
                 return
 
             success = self.run_task(
@@ -422,6 +447,7 @@ class TaskQueue:
             )
 
             if not success:
+                self.failed = True
                 return
 
             success = self.verify_outputs(
@@ -429,6 +455,7 @@ class TaskQueue:
             )
 
             if not success:
+                self.failed = True
                 return
 
             success = self.transfer_outputs(
@@ -436,6 +463,7 @@ class TaskQueue:
             )
 
             if not success:
+                self.failed = True
                 return
 
             print(
@@ -443,6 +471,7 @@ class TaskQueue:
                 task.task_id
             )
 
+        self.completed = True
         print(
             "[WORKFLOW COMPLETE]"
         )
