@@ -6,16 +6,13 @@ def artifact_path(
     producer_task_id,
     artifact_name
 ):
-
     return str(
-
         PurePosixPath(
             "artifacts",
             workflow_id,
             producer_task_id,
             artifact_name
         )
-
     )
 
 
@@ -26,25 +23,27 @@ def build_command(
     inputs
 ):
 
-    command = (
-        task_config["command"]
+    command = task_config["command"]
+
+    #
+    # Replace input placeholders
+    #
+    command = command.replace(
+        "{workflow}",
+        workflow_id
     )
-
-    parts = [command]
-
-    #
-    # INPUTS
-    #
 
     for artifact in inputs:
 
-        parts.append(
-
-            "--input"
-
+        placeholder = (
+            "{input:"
+            + artifact.artifact_name
+            + "}"
         )
 
-        parts.append(
+        command = command.replace(
+
+            placeholder,
 
             artifact_path(
 
@@ -55,25 +54,24 @@ def build_command(
                 artifact.artifact_name
 
             )
-        )
-
-    #
-    # OUTPUTS
-    #
-
-    outputs = (
-        task_config["outputs"]
-    )
-
-    for artifact in outputs:
-
-        parts.append(
-
-            "--output"
 
         )
 
-        parts.append(
+    #
+    # Replace output placeholders
+    #
+
+    for artifact in task_config["outputs"]:
+
+        placeholder = (
+            "{output:"
+            + artifact
+            + "}"
+        )
+
+        command = command.replace(
+
+            placeholder,
 
             artifact_path(
 
@@ -84,6 +82,7 @@ def build_command(
                 artifact
 
             )
+
         )
 
-    return " ".join(parts)
+    return command

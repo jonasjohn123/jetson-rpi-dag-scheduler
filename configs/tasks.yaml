@@ -1,7 +1,7 @@
 tasks:
 
   capture:
-    command: "python workloads/industrial_safety/capture.py --source datasets/safety/worker.jpg --output artifacts/workflow_001/capture/frame.jpg"
+    command: "python workloads/industrial_safety/capture.py --source datasets/safety/worker.jpg --output {output:frame.jpg}"
 
     outputs:
       - frame.jpg
@@ -11,7 +11,7 @@ tasks:
 
 
   preprocess:
-    command: "python workloads/industrial_safety/preprocess.py --input artifacts/workflow_001/capture/frame.jpg --output artifacts/workflow_001/preprocess/preprocessed.jpg"
+    command: "python workloads/industrial_safety/preprocess.py --input {input:frame.jpg} --output {output:preprocessed.jpg}"
 
     inputs:
       - frame.jpg
@@ -24,7 +24,7 @@ tasks:
 
 
   detect_person:
-    command: "python workloads/industrial_safety/detect_person.py --input artifacts/workflow_001/preprocess/preprocessed.jpg --output artifacts/workflow_001/detect_person/persons.json"
+    command: "python workloads/industrial_safety/detect_person.py --input {input:preprocessed.jpg} --output {output:persons.json}"
 
     inputs:
       - preprocessed.jpg
@@ -37,7 +37,7 @@ tasks:
 
 
   detect_helmet:
-    command: "python workloads/industrial_safety/detect_helmet.py --input artifacts/workflow_001/preprocess/preprocessed.jpg --output artifacts/workflow_001/detect_helmet/helmets.json"
+    command: "python workloads/industrial_safety/detect_helmet.py --input {input:preprocessed.jpg} --output {output:helmets.json}"
 
     inputs:
       - preprocessed.jpg
@@ -50,7 +50,7 @@ tasks:
 
 
   decide:
-    command: "python workloads/industrial_safety/decide.py --persons artifacts/workflow_001/detect_person/persons.json --helmets artifacts/workflow_001/detect_helmet/helmets.json --output artifacts/workflow_001/decide/report.txt"
+    command: "python workloads/industrial_safety/decide.py --persons {input:persons.json} --helmets {input:helmets.json} --output {output:report.txt}"
 
     inputs:
       - persons.json

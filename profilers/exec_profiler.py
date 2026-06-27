@@ -5,11 +5,55 @@ from pathlib import Path
 import messages_pb2
 import messages_pb2_grpc
 
+from runtime.command_builder import build_command
+from messages_pb2 import ArtifactInput
+
 
 WORKERS_FILE = Path("configs/workers.yaml")
 TASKS_FILE = Path("configs/tasks.yaml")
 OUTPUT_FILE = Path("configs/execution_profiles.yaml")
 
+def build_profile_command(
+    workflow_id,
+    task_name,
+    task_info,
+    tasks
+):
+
+    inputs = []
+
+    for artifact in task_info.get("inputs", []):
+
+        producer = None
+
+        for other_task, other_info in tasks.items():
+
+            if artifact in other_info.get("outputs", []):
+
+                producer = other_task
+                break
+
+        if producer is None:
+
+            raise RuntimeError(
+                f"No producer found for {artifact}"
+            )
+
+        inputs.append(
+
+            ArtifactInput(
+                producer_task_id=producer,
+                artifact_name=artifact
+            )
+
+        )
+
+    return build_command(
+        workflow_id=workflow_id,
+        task_id=task_name,
+        task_config=task_info,
+        inputs=inputs
+    )
 
 def load_workers():
 
@@ -80,7 +124,12 @@ def build_execution_matrix():
 
     for task_name, task_info in tasks.items():
 
-        command = task_info["command"]
+        command = build_profile_command(
+            workflow_id="profile",
+            task_name=task_name,
+            task_info=task_info,
+            tasks=tasks
+        )
 
         profile_data["task_types"][
             task_name
