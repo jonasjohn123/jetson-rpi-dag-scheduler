@@ -532,7 +532,21 @@ def main():
         / 1000
     ) + 5
 
-    time.sleep(wait_time)
+    while True:
+
+        all_done = True
+
+        for worker in active_workers:
+
+            response = get_workflow_status(...)
+
+            if not response.completed:
+                all_done = False
+
+        if all_done:
+            break
+
+        time.sleep(1)
 
     combined_logs = []
 
@@ -579,6 +593,16 @@ def main():
         "[LOGS COLLECTED]",
         len(combined_logs),
         "entries"
+    )
+
+    logs = get_execution_log(
+        worker["ip"],
+        workflow_id
+    )
+
+    print(
+        worker["id"],
+        len(logs)
     )
 
 

@@ -89,6 +89,11 @@ class WorkerServiceStub:
                 request_serializer=messages__pb2.ExecutionLogRequest.SerializeToString,
                 response_deserializer=messages__pb2.ExecutionLogResponse.FromString,
                 _registered_method=True)
+        self.WorkflowStatus = channel.unary_unary(
+                '/scheduler.WorkerService/WorkflowStatus',
+                request_serializer=messages__pb2.WorkflowStatusRequest.SerializeToString,
+                response_deserializer=messages__pb2.WorkflowStatusResponse.FromString,
+                _registered_method=True)
 
 
 class WorkerServiceServicer:
@@ -160,6 +165,12 @@ class WorkerServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def WorkflowStatus(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -217,6 +228,11 @@ def add_WorkerServiceServicer_to_server(servicer, server):
                     servicer.GetExecutionLog,
                     request_deserializer=messages__pb2.ExecutionLogRequest.FromString,
                     response_serializer=messages__pb2.ExecutionLogResponse.SerializeToString,
+            ),
+            'WorkflowStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.WorkflowStatus,
+                    request_deserializer=messages__pb2.WorkflowStatusRequest.FromString,
+                    response_serializer=messages__pb2.WorkflowStatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -516,6 +532,33 @@ class WorkerService:
             '/scheduler.WorkerService/GetExecutionLog',
             messages__pb2.ExecutionLogRequest.SerializeToString,
             messages__pb2.ExecutionLogResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def WorkflowStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/scheduler.WorkerService/WorkflowStatus',
+            messages__pb2.WorkflowStatusRequest.SerializeToString,
+            messages__pb2.WorkflowStatusResponse.FromString,
             options,
             channel_credentials,
             insecure,

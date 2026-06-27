@@ -179,6 +179,15 @@ message ExecutionLogResponse {
   string json_data = 1;
 }
 
+message WorkflowStatusRequest {
+  string workflow_id = 1;
+}
+
+
+message WorkflowStatusResponse {
+  bool completed = 1;
+}
+
 service WorkerService {
 
   rpc Ping(
@@ -244,5 +253,11 @@ service WorkerService {
   )
   returns (
       ExecutionLogResponse
+  );
+  rpc WorkflowStatus(
+      WorkflowStatusRequest
+  )
+  returns (
+      WorkflowStatusResponse
   );
 }

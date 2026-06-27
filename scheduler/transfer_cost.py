@@ -29,8 +29,7 @@ def get_transfer_time_ms(
     )
 
     sizes = sorted(
-        float(x)
-        for x in profiles.keys()
+        profiles.keys()
     )
 
     if size_mb <= sizes[0]:
@@ -39,12 +38,30 @@ def get_transfer_time_ms(
             sizes[0]
         ]
 
+    # Extrapolation
     if size_mb >= sizes[-1]:
 
-        return profiles[
-            sizes[-1]
-        ]
+        s1 = sizes[-2]
+        s2 = sizes[-1]
 
+        t1 = profiles[s1]
+        t2 = profiles[s2]
+
+        slope = (
+            (t2 - t1)
+            /
+            (s2 - s1)
+        )
+
+        return (
+            t2
+            +
+            slope
+            *
+            (size_mb - s2)
+        )
+
+    # Interpolation
     for i in range(
         len(sizes) - 1
     ):
