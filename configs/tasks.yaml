@@ -3,7 +3,7 @@ tasks:
   capture:
     command: >
       python workloads/industrial_safety/capture.py
-      --source datasets/worker.jpg
+      --source datasets/safety/worker.jpg
       --output artifacts/workflow_001/capture/frame.jpg
 
     outputs:
