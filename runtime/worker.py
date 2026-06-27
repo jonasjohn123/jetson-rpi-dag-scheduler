@@ -492,6 +492,16 @@ class WorkerService(
                 json_data=data
             )
         )
+    
+    def WorkflowStatus(
+        self,
+        request,
+        context
+    ):
+
+        return messages_pb2.WorkflowStatusResponse(
+            completed=task_queue.is_completed()
+        )
         
 
 subprocess.Popen(

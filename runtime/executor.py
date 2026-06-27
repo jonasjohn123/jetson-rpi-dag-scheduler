@@ -267,6 +267,32 @@ def get_execution_log(
         response.json_data
     )
 
+def get_workflow_status(
+    worker_ip,
+    workflow_id
+):
+
+    channel = grpc.insecure_channel(
+        f"{worker_ip}:50051"
+    )
+
+    stub = (
+        messages_pb2_grpc
+        .WorkerServiceStub(
+            channel
+        )
+    )
+
+    return stub.WorkflowStatus(
+
+        messages_pb2
+        .WorkflowStatusRequest(
+
+            workflow_id=
+            workflow_id
+        )
+    )
+
 
 def main():
 
@@ -527,18 +553,17 @@ def main():
         "Workflow launched"
     )
 
-    wait_time = (
-        mapping["makespan_ms"]
-        / 1000
-    ) + 5
 
     while True:
 
         all_done = True
 
-        for worker in active_workers:
+        for worker in workers["workers"]:
 
-            response = get_workflow_status(...)
+            response = get_workflow_status(
+                worker["ip"],
+                workflow_id
+            )
 
             if not response.completed:
                 all_done = False
@@ -595,16 +620,21 @@ def main():
         "entries"
     )
 
-    logs = get_execution_log(
-        worker["ip"],
-        workflow_id
-    )
+    print()
 
-    print(
-        worker["id"],
-        len(logs)
-    )
+    for worker in workers["workers"]:
 
+        logs = get_execution_log(
+
+            worker["ip"],
+
+            workflow_id
+        )
+
+        print(
+            worker["id"],
+            len(logs)
+        )
 
 
 
