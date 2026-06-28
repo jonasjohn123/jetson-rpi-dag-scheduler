@@ -1,28 +1,9 @@
 links:
   rpi01:
     laptop01:
-      latency_ms: 1.42
-      bandwidth_mbps: 940.58
-      overhead_ms: 40.0
-    jetson01:
-      latency_ms: 0.32
-      bandwidth_mbps: 940.38
-      overhead_ms: 40.0
+      latency_ms: 1.98
+      bandwidth_mbps: 940.2
   laptop01:
     rpi01:
-      latency_ms: 1.0
-      bandwidth_mbps: 947.22
-      overhead_ms: 40.0
-    jetson01:
-      latency_ms: 1.0
-      bandwidth_mbps: 948.35
-      overhead_ms: 40.0
-  jetson01:
-    rpi01:
-      latency_ms: 0.49
-      bandwidth_mbps: 940.87
-      overhead_ms: 40.0
-    laptop01:
-      latency_ms: 1.85
-      bandwidth_mbps: 940.03
-      overhead_ms: 40.0
+      latency_ms: 2.0
+      bandwidth_mbps: 948.76
