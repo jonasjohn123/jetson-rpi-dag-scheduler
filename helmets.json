@@ -1,0 +1,144 @@
+{
+    "detections": [
+        {
+            "bbox": [
+                452,
+                247,
+                543,
+                340
+            ],
+            "confidence": 0.8791,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                831,
+                455,
+                922,
+                572
+            ],
+            "confidence": 0.872,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1228,
+                327,
+                1312,
+                415
+            ],
+            "confidence": 0.8576,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1102,
+                300,
+                1162,
+                377
+            ],
+            "confidence": 0.8394,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                893,
+                293,
+                964,
+                381
+            ],
+            "confidence": 0.8291,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1356,
+                247,
+                1454,
+                349
+            ],
+            "confidence": 0.8234,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                614,
+                272,
+                699,
+                374
+            ],
+            "confidence": 0.8105,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                700,
+                295,
+                773,
+                386
+            ],
+            "confidence": 0.8104,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                810,
+                300,
+                876,
+                383
+            ],
+            "confidence": 0.8104,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1030,
+                458,
+                1125,
+                566
+            ],
+            "confidence": 0.8053,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1159,
+                291,
+                1229,
+                379
+            ],
+            "confidence": 0.7798,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1184,
+                477,
+                1295,
+                595
+            ],
+            "confidence": 0.7609,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                1077,
+                362,
+                1150,
+                445
+            ],
+            "confidence": 0.7493,
+            "class": "Hardhat"
+        },
+        {
+            "bbox": [
+                528,
+                216,
+                607,
+                312
+            ],
+            "confidence": 0.6077,
+            "class": "Hardhat"
+        }
+    ]
+}

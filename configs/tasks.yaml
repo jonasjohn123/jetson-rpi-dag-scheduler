@@ -88,86 +88,86 @@ tasks:
 #      metadata.json: 10
 #
 
-  detect:
-    command: "python workloads/vision/detect.py"
-    preferred: gpu
+  # detect:
+  #   command: "python workloads/vision/detect.py"
+  #   preferred: gpu
 
-    inputs:
-      - tensor.npy
-      - metadata.json
+  #   inputs:
+  #     - tensor.npy
+  #     - metadata.json
 
-    outputs:
-      - boxes.json
-      - confidence.json
+  #   outputs:
+  #     - boxes.json
+  #     - confidence.json
 
-    artifact_sizes_mb:
-      boxes.json: 1
-      confidence.json: 1
+  #   artifact_sizes_mb:
+  #     boxes.json: 1
+  #     confidence.json: 1
 
-  log:
-    command: "python workloads/vision/log.py"
-    preferred: cpu
+  # log:
+  #   command: "python workloads/vision/log.py"
+  #   preferred: cpu
 
-    inputs:
-      - boxes.json
-      - confidence.json
+  #   inputs:
+  #     - boxes.json
+  #     - confidence.json
 
-    outputs: []
+  #   outputs: []
 
-    artifact_sizes_mb: {}
+  #   artifact_sizes_mb: {}
 
-  generate:
-    command: "python workloads/branching/generate.py"
-    preferred: cpu
+  # generate:
+  #   command: "python workloads/branching/generate.py"
+  #   preferred: cpu
 
-    inputs: []
+  #   inputs: []
 
-    outputs:
-      - data.bin
+  #   outputs:
+  #     - data.bin
 
-    artifact_sizes_mb:
-      data.bin: 1
-
-
-  branch_a:
-    command: "python workloads/branching/branch_a.py"
-    preferred: cpu
-
-    inputs:
-      - data.bin
-
-    outputs:
-      - result_a.bin
-
-    artifact_sizes_mb:
-      result_a.bin: 2
+  #   artifact_sizes_mb:
+  #     data.bin: 1
 
 
-  branch_b:
-    command: "python workloads/branching/branch_b.py"
-    preferred: cpu
+  # branch_a:
+  #   command: "python workloads/branching/branch_a.py"
+  #   preferred: cpu
 
-    inputs:
-      - data.bin
+  #   inputs:
+  #     - data.bin
 
-    outputs:
-      - result_b.bin
+  #   outputs:
+  #     - result_a.bin
 
-    artifact_sizes_mb:
-      result_b.bin: 3
+  #   artifact_sizes_mb:
+  #     result_a.bin: 2
 
 
-  merge:
-    command: "python workloads/branching/merge.py"
-    preferred: cpu
+  # branch_b:
+  #   command: "python workloads/branching/branch_b.py"
+  #   preferred: cpu
 
-    inputs:
-      - result_a.bin
-      - result_b.bin
+  #   inputs:
+  #     - data.bin
 
-    outputs:
-      - merged.txt
+  #   outputs:
+  #     - result_b.bin
 
-    artifact_sizes_mb:
-      merged.txt: 0.001
+  #   artifact_sizes_mb:
+  #     result_b.bin: 3
+
+
+  # merge:
+  #   command: "python workloads/branching/merge.py"
+  #   preferred: cpu
+
+  #   inputs:
+  #     - result_a.bin
+  #     - result_b.bin
+
+  #   outputs:
+  #     - merged.txt
+
+  #   artifact_sizes_mb:
+  #     merged.txt: 0.001
 

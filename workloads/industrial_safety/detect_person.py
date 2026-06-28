@@ -6,6 +6,7 @@ import cv2
 from workloads.industrial_safety.yolo_decoder import decode
 import json
 
+from workloads.industrial_safety.inference.backend import infer
 
 
 MODEL = (
@@ -42,29 +43,13 @@ def main():
     #
     # Load ONNX model
     #
+
     if not MODEL.exists():
         raise FileNotFoundError(
             f"Model not found: {MODEL}"
         )
 
-    net = cv2.dnn.readNetFromONNX(
-        str(MODEL)
-    )
-    #
-    # Create blob
-    #
-
-    blob = cv2.dnn.blobFromImage(
-        image,
-        scalefactor=1 / 255.0,
-        size=(640, 640),
-        swapRB=True,
-        crop=False
-    )
-
-    net.setInput(blob)
-
-    outputs = net.forward()
+    outputs = infer(image, MODEL)
 
     detections = decode(
         outputs,
