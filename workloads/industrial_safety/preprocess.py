@@ -1,29 +1,64 @@
 import argparse
+from pathlib import Path
+
 import cv2
-import os
 
-parser = argparse.ArgumentParser()
 
-parser.add_argument("--input")
-parser.add_argument("--output")
+def main():
 
-args = parser.parse_args()
+    parser = argparse.ArgumentParser()
 
-img = cv2.imread(args.input)
+    parser.add_argument(
+        "--input",
+        required=True
+    )
 
-img = cv2.resize(
-    img,
-    (640,640)
-)
+    parser.add_argument(
+        "--output",
+        required=True
+    )
 
-os.makedirs(
-    os.path.dirname(args.output),
-    exist_ok=True
-)
+    args = parser.parse_args()
 
-cv2.imwrite(
-    args.output,
-    img
-)
+    image = cv2.imread(args.input)
 
-print("Preprocessing complete")
+    if image is None:
+        raise FileNotFoundError(
+            f"Unable to read image: {args.input}"
+        )
+
+    #
+    # Resize
+    #
+
+    image = cv2.resize(
+        image,
+        (640, 640)
+    )
+
+    #
+    # Future preprocessing goes here
+    #
+    # - denoising
+    # - normalization
+    # - histogram equalization
+    #
+
+    Path(args.output).parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    cv2.imwrite(
+        args.output,
+        image
+    )
+
+    print(
+        "Preprocessing complete"
+    )
+
+
+if __name__ == "__main__":
+
+    main()
