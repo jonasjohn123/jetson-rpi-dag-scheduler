@@ -1,22 +1,46 @@
 import argparse
 import shutil
-import os
+from pathlib import Path
 
-parser = argparse.ArgumentParser()
-
-parser.add_argument("--source")
-parser.add_argument("--output")
-
-args = parser.parse_args()
-
-os.makedirs(
-    os.path.dirname(args.output),
-    exist_ok=True
+# Temporary test image
+SOURCE_IMAGE = (
+    Path(__file__).resolve().parents[2]
+    / "datasets"
+    / "safety"
+    / "worker.jpg"
 )
 
-shutil.copy(
-    args.source,
-    args.output
-)
 
-print("Frame captured")
+def main():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--output",
+        required=True
+    )
+
+    args = parser.parse_args()
+
+    if not SOURCE_IMAGE.exists():
+        raise FileNotFoundError(
+            f"Source image not found: {SOURCE_IMAGE}"
+        )
+
+    output = Path(args.output)
+
+    output.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    shutil.copy(
+        SOURCE_IMAGE,
+        output
+    )
+
+    print("Frame captured.")
+
+
+if __name__ == "__main__":
+    main()
