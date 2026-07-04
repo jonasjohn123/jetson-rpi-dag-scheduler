@@ -1,46 +1,46 @@
 task_types:
   capture:
     laptop01:
-      mean_ms: 133.57
-      min_ms: 124.93
-      max_ms: 147.67
+      mean_ms: 123.1
+      min_ms: 118.47
+      max_ms: 140.16
     jetson01:
-      mean_ms: 184.0
-      min_ms: 183.07
-      max_ms: 186.93
+      mean_ms: 184.82
+      min_ms: 183.59
+      max_ms: 187.84
   preprocess:
     laptop01:
-      mean_ms: 349.51
-      min_ms: 335.32
-      max_ms: 386.63
+      mean_ms: 411.83
+      min_ms: 313.67
+      max_ms: 1209.04
     jetson01:
-      mean_ms: 713.35
-      min_ms: 708.92
-      max_ms: 716.6
+      mean_ms: 712.79
+      min_ms: 709.54
+      max_ms: 716.74
   detect_person:
     laptop01:
-      mean_ms: 549.0
-      min_ms: 536.21
-      max_ms: 588.42
+      mean_ms: 474.88
+      min_ms: 459.9
+      max_ms: 551.92
     jetson01:
-      mean_ms: 8793.36
-      min_ms: 8265.71
-      max_ms: 8927.91
+      mean_ms: 7322.01
+      min_ms: 7192.08
+      max_ms: 7497.93
   detect_helmet:
     laptop01:
-      mean_ms: 625.14
-      min_ms: 598.85
-      max_ms: 683.54
+      mean_ms: 471.58
+      min_ms: 455.58
+      max_ms: 547.77
     jetson01:
-      mean_ms: 8947.61
-      min_ms: 8638.75
-      max_ms: 9508.83
+      mean_ms: 7305.48
+      min_ms: 7092.12
+      max_ms: 7528.95
   decide:
     laptop01:
-      mean_ms: 137.53
-      min_ms: 130.35
-      max_ms: 159.03
+      mean_ms: 121.16
+      min_ms: 115.32
+      max_ms: 136.83
     jetson01:
-      mean_ms: 170.84
-      min_ms: 168.47
-      max_ms: 183.18
+      mean_ms: 168.94
+      min_ms: 167.9
+      max_ms: 169.75

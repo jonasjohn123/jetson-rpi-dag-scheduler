@@ -121,7 +121,7 @@ def plot_execution(execution):
 
     base_time = min(
 
-        task["actual_start"]
+        task["actual_start_global"]
 
         for task in execution
     )
@@ -164,15 +164,15 @@ def plot_execution(execution):
         ]
 
         start = (
-            task["actual_start"]
+            task["actual_start_global"]
             -
             base_time
         )
 
         duration = (
-            task["actual_finish"]
+            task["actual_finish_global"]
             -
-            task["actual_start"]
+            task["actual_start_global"]
         )
 
         idle = task[
@@ -237,14 +237,14 @@ def print_stats(execution):
     makespan_actual = (
 
         max(
-            task["actual_finish"]
+            task["actual_finish_global"]
             for task in execution
         )
 
         -
 
         min(
-            task["actual_start"]
+            task["actual_start_global"]
             for task in execution
         )
     )
