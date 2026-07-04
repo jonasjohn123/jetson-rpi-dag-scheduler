@@ -4,7 +4,14 @@ import numpy as np
 import tensorrt as trt
 
 import pycuda.driver as cuda
-import pycuda.autoinit
+
+import atexit
+
+
+cuda.init()
+
+DEVICE = cuda.Device(0)
+CTX = DEVICE.make_context()
 
 
 TRT_LOGGER = trt.Logger(
@@ -96,21 +103,43 @@ def infer(
     ]
 
 
-    cuda.memcpy_htod(
-        d_input,
-        input_data
-    )
+    CTX.push()
+
+    try:
+
+        cuda.memcpy_htod(
+            d_input,
+            input_data
+        )
 
 
-    context.execute_v2(
-        bindings=bindings
-    )
+        context.execute_v2(
+            bindings=bindings
+        )
 
 
-    cuda.memcpy_dtoh(
-        output,
-        d_output
-    )
+        cuda.memcpy_dtoh(
+            output,
+            d_output
+        )
+
+
+    finally:
+
+        CTX.pop()
 
 
     return output
+
+
+
+def cleanup():
+
+    CACHE.clear()
+
+    CTX.detach()
+
+
+atexit.register(
+    cleanup
+)
