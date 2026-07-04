@@ -1,7 +1,14 @@
-import platform
+from pathlib import Path
 
 
-if platform.machine() == "aarch64":
+def is_jetson():
+
+    return Path(
+        "/etc/nv_tegra_release"
+    ).exists()
+
+
+if is_jetson():
 
     from .tensorrt_backend import infer
 

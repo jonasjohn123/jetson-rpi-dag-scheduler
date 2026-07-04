@@ -122,13 +122,19 @@ def infer(
 
     try:
 
+        t=time.time()
+
         cuda.memcpy_htod(
             d_input,
             input_data
         )
 
-        t=time.time()
+        print(
+            "H2D:",
+            (time.time()-t)*1000
+        )
 
+        t=time.time()
 
         context.execute_v2(
             bindings=bindings
@@ -136,14 +142,22 @@ def infer(
 
         
         print(
-            "GPU:",
+            "INFERENCE:",
             (time.time()-t)*1000
         )
+
+
+        t=time.time()
 
 
         cuda.memcpy_dtoh(
             output,
             d_output
+        )
+
+        print(
+            "D2H:",
+            (time.time()-t)*1000
         )
 
 
