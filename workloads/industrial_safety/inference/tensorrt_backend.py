@@ -5,6 +5,8 @@ import tensorrt as trt
 
 import pycuda.driver as cuda
 
+import time
+
 import atexit
 
 
@@ -63,10 +65,18 @@ def infer(
     )
 
 
+    t=time.time()
+
     engine, context = load_engine(
         engine_path
     )
 
+    print(
+        "ENGINE LOAD:",
+        (time.time()-t)*1000
+    )
+
+    t=time.time()
 
     blob = cv2.dnn.blobFromImage(
         image,
@@ -74,6 +84,11 @@ def infer(
         size=(640,640),
         swapRB=True,
         crop=False
+    )
+
+    print(
+        "PREPROCESS:",
+        (time.time()-t)*1000
     )
 
 
@@ -112,9 +127,17 @@ def infer(
             input_data
         )
 
+        t=time.time()
+
 
         context.execute_v2(
             bindings=bindings
+        )
+
+        
+        print(
+            "GPU:",
+            (time.time()-t)*1000
         )
 
 
