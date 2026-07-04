@@ -1,19 +1,19 @@
 workers:
-  - id: rpi01
-    host: RPI4
-    ip: 192.168.10.2
-    role: worker
-    arch: aarch64
-    cpu_cores: 4
-    ram_gb: 4
-    gpu: false
-    grpc_port: 50051
-    tags:
-      - rpi4
-      - cpu
-      - camera
-    max_concurrency: 1
-    artifact_root: "/data/dag/artifacts"
+  # - id: rpi01
+  #   host: RPI4
+  #   ip: 192.168.10.2
+  #   role: worker
+  #   arch: aarch64
+  #   cpu_cores: 4
+  #   ram_gb: 4
+  #   gpu: false
+  #   grpc_port: 50051
+  #   tags:
+  #     - rpi4
+  #     - cpu
+  #     - camera
+  #   max_concurrency: 1
+  #   artifact_root: "/data/dag/artifacts"
 
   - id: laptop01
     host: LAPTOP-8FBC7JB1
@@ -32,18 +32,18 @@ workers:
     max_concurrency: 2
     artifact_root: "/data/dag/artifacts"
 
- # - id: jetson01
-    # host: jetson
-    # ip: 192.168.10.3
-    # role: worker
-    # arch: aarch64
-    # cpu_cores: 4
-    # ram_gb: 4
-    # gpu: true
-    # grpc_port: 50051
-    # tags:
-    #    - jetson
-    #    - gpu
-    #    - camera
-    # max_concurrency: 1
-    # artifact_root: "/data/dag/artifacts"
+  - id: jetson01
+    host: jetson
+    ip: 192.168.10.3
+    role: worker
+    arch: aarch64
+    cpu_cores: 4
+    ram_gb: 4
+    gpu: true
+    grpc_port: 50051
+    tags:
+      - jetson
+      - gpu
+      - camera
+    max_concurrency: 1
+    artifact_root: "/data/dag/artifacts"
