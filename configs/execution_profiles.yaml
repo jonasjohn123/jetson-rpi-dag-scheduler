@@ -1,46 +1,46 @@
 task_types:
   capture:
     rpi01:
-      mean_ms: 192.63
-      min_ms: 136.7
-      max_ms: 675.05
+      mean_ms: 123.94
+      min_ms: 117.69
+      max_ms: 163.98
     laptop01:
-      mean_ms: 112.58
-      min_ms: 108.57
-      max_ms: 117.86
+      mean_ms: 107.46
+      min_ms: 104.43
+      max_ms: 114.16
   preprocess:
     rpi01:
-      mean_ms: 849.16
-      min_ms: 632.85
-      max_ms: 2737.72
+      mean_ms: 555.87
+      min_ms: 548.62
+      max_ms: 590.04
     laptop01:
-      mean_ms: 344.84
-      min_ms: 327.47
-      max_ms: 378.88
+      mean_ms: 284.58
+      min_ms: 269.18
+      max_ms: 99999
   detect_person:
     rpi01:
-      mean_ms: 1400.51
-      min_ms: 1343.71
-      max_ms: 1822.43
+      mean_ms: 1387.28
+      min_ms: 1339.3
+      max_ms: 1775.18
     laptop01:
-      mean_ms: 509.81
-      min_ms: 492.72
-      max_ms: 605.41
+      mean_ms: 431.03
+      min_ms: 422.94
+      max_ms: 470.41
   detect_helmet:
     rpi01:
-      mean_ms: 1347.77
-      min_ms: 1305.59
-      max_ms: 1670.2
+      mean_ms: 1343.22
+      min_ms: 1300.8
+      max_ms: 1619.05
     laptop01:
-      mean_ms: 494.66
-      min_ms: 481.43
-      max_ms: 543.45
+      mean_ms: 424.93
+      min_ms: 414.65
+      max_ms: 446.03
   decide:
     rpi01:
-      mean_ms: 124.93
-      min_ms: 123.73
-      max_ms: 128.36
+      mean_ms: 128.13
+      min_ms: 124.17
+      max_ms: 158.67
     laptop01:
-      mean_ms: 115.81
-      min_ms: 111.25
-      max_ms: 137.67
+      mean_ms: 110.02
+      min_ms: 105.44
+      max_ms: 130.1

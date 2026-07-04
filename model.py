@@ -1,4 +1,9 @@
 from ultralytics import YOLO
 
-model = YOLO("helmet.pt")
-print(model.names)
+model = YOLO("best.pt")
+
+model.export(
+    format="onnx",
+    opset=11,
+    simplify=True
+)
