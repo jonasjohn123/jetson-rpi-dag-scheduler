@@ -5,16 +5,23 @@ import tensorrt as trt
 
 import pycuda.driver as cuda
 
-import time
-
 import atexit
 
+
+# -------------------------
+# CUDA initialization
+# -------------------------
 
 cuda.init()
 
 DEVICE = cuda.Device(0)
+
 CTX = DEVICE.make_context()
 
+
+# -------------------------
+# TensorRT
+# -------------------------
 
 TRT_LOGGER = trt.Logger(
     trt.Logger.WARNING
@@ -28,7 +35,10 @@ def load_engine(engine_path):
 
     engine_path = str(engine_path)
 
+
+    # reuse already loaded engines
     if engine_path in CACHE:
+
         return CACHE[engine_path]
 
 
@@ -45,10 +55,12 @@ def load_engine(engine_path):
 
     context = engine.create_execution_context()
 
+
     CACHE[engine_path] = (
         engine,
         context
     )
+
 
     return CACHE[engine_path]
 
@@ -59,105 +71,117 @@ def infer(
     model_path
 ):
 
-    engine_path = str(model_path).replace(
+    # ONNX path -> TensorRT engine path
+
+    engine_path = str(
+        model_path
+    ).replace(
         ".onnx",
         ".engine"
     )
 
 
-    t=time.time()
-
     engine, context = load_engine(
         engine_path
     )
 
-    print(
-        "ENGINE LOAD:",
-        (time.time()-t)*1000
-    )
 
-    t=time.time()
+    # -------------------------
+    # Preprocess
+    # -------------------------
 
     blob = cv2.dnn.blobFromImage(
-        image,
-        scalefactor=1/255.0,
-        size=(640,640),
-        swapRB=True,
-        crop=False
-    )
 
-    print(
-        "PREPROCESS:",
-        (time.time()-t)*1000
+        image,
+
+        scalefactor=1 / 255.0,
+
+        size=(640, 640),
+
+        swapRB=True,
+
+        crop=False
     )
 
 
     input_data = np.ascontiguousarray(
-        blob.astype(np.float32)
+
+        blob.astype(
+            np.float32
+        )
+
     )
 
+
+    # YOLO output buffer
 
     output = np.empty(
-        (1,84,8400),
+
+        (1, 84, 8400),
+
         dtype=np.float32
+
     )
 
+
+    # -------------------------
+    # Allocate GPU memory
+    # -------------------------
 
     d_input = cuda.mem_alloc(
+
         input_data.nbytes
+
     )
 
+
     d_output = cuda.mem_alloc(
+
         output.nbytes
+
     )
 
 
     bindings = [
+
         int(d_input),
+
         int(d_output)
+
     ]
 
 
+    # -------------------------
+    # Execute TensorRT
+    # -------------------------
+
     CTX.push()
+
 
     try:
 
-        t=time.time()
-
         cuda.memcpy_htod(
+
             d_input,
+
             input_data
+
         )
 
-        print(
-            "H2D:",
-            (time.time()-t)*1000
-        )
-
-        t=time.time()
 
         context.execute_v2(
+
             bindings=bindings
+
         )
-
-        
-        print(
-            "INFERENCE:",
-            (time.time()-t)*1000
-        )
-
-
-        t=time.time()
 
 
         cuda.memcpy_dtoh(
-            output,
-            d_output
-        )
 
-        print(
-            "D2H:",
-            (time.time()-t)*1000
+            output,
+
+            d_output
+
         )
 
 
@@ -166,15 +190,27 @@ def infer(
         CTX.pop()
 
 
+        # free GPU buffers
+
+        d_input.free()
+
+        d_output.free()
+
+
     return output
 
 
+
+# -------------------------
+# Shutdown cleanup
+# -------------------------
 
 def cleanup():
 
     CACHE.clear()
 
     CTX.detach()
+
 
 
 atexit.register(
